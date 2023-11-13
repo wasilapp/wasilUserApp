@@ -1,0 +1,226 @@
+{
+  "project_info": {
+    "project_number": "677303892936",
+    "project_id": "wasilapp-e7679",
+    "storage_bucket": "wasilapp-e7679.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677303892936:android:9ef644d19987418be01efd",
+        "android_client_info": {
+          "package_name": "com.example.mangerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACLZ-qThwz-PcpoSNa7TBmGOsDDN8eaMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677303892936-j2v4k8ppq0465cp33jvcs44g44jto88n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hanin.gas"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677303892936:android:bd904d2ce08785f4e01efd",
+        "android_client_info": {
+          "package_name": "com.example.userwasil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACLZ-qThwz-PcpoSNa7TBmGOsDDN8eaMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677303892936-j2v4k8ppq0465cp33jvcs44g44jto88n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hanin.gas"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677303892936:android:1a3b433607bed80ce01efd",
+        "android_client_info": {
+          "package_name": "com.gaswater.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677303892936-ccpo3m3r8h05u5dtqbsglcr8kr5c2loa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaswater.delivery",
+            "certificate_hash": "314cb4727b696fb6a1469c7a42ac35959e7ac1a3"
+          }
+        },
+        {
+          "client_id": "677303892936-cqt0pdamk53o4bf77pv2va1veo2bhks8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaswater.delivery",
+            "certificate_hash": "4fa294b2e9a76706a68e3459fa62259de9a60104"
+          }
+        },
+        {
+          "client_id": "677303892936-johltamr2q4dc9ara3mkv9rddd33h6rh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaswater.delivery",
+            "certificate_hash": "e1665c1544907d0737ab7c22a2cb8af4fbdaf830"
+          }
+        },
+        {
+          "client_id": "677303892936-pqrkvct49t9t5tb699nmgci1tilmtqpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaswater.delivery",
+            "certificate_hash": "ab36bd99f8650d68aeaf59bbb2a96f9678537ad1"
+          }
+        },
+        {
+          "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACLZ-qThwz-PcpoSNa7TBmGOsDDN8eaMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677303892936-j2v4k8ppq0465cp33jvcs44g44jto88n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hanin.gas"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677303892936:android:a716817213d66711e01efd",
+        "android_client_info": {
+          "package_name": "com.hanin.gas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677303892936-0he0ajme0cktu8mvoultrgmosje1j49r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanin.gas",
+            "certificate_hash": "e1665c1544907d0737ab7c22a2cb8af4fbdaf830"
+          }
+        },
+        {
+          "client_id": "677303892936-eckt5t759riluuassi7petmmnr4dnpme.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanin.gas",
+            "certificate_hash": "8998c57eeac8c0854865ad4f9ee5bb02970f1030"
+          }
+        },
+        {
+          "client_id": "677303892936-ggur4s8496b08l1jt64312nqvj26tn9n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanin.gas",
+            "certificate_hash": "4fa294b2e9a76706a68e3459fa62259de9a60104"
+          }
+        },
+        {
+          "client_id": "677303892936-j5diq20l55oost2grv87ncut2rp26krk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanin.gas",
+            "certificate_hash": "fc9cfde684222888a89a6c9290445b99ecfe99b9"
+          }
+        },
+        {
+          "client_id": "677303892936-sm8cihj8sbegt2ca330qsiv5fk90ps7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanin.gas",
+            "certificate_hash": "314cb4727b696fb6a1469c7a42ac35959e7ac1a3"
+          }
+        },
+        {
+          "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACLZ-qThwz-PcpoSNa7TBmGOsDDN8eaMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677303892936-5v31b7h1qa2cc8ms842nvfodgslpgep3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677303892936-j2v4k8ppq0465cp33jvcs44g44jto88n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hanin.gas"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,7 +11,7 @@ class Network {
     http.Response response = await http.post(Uri.parse(changeUrl(url)),
         headers: headers, body: body, encoding: encoding);
 
-   
+
 
     return NetworkResponse(response.body, response.statusCode);
   }
@@ -29,7 +29,7 @@ class Network {
   static Future<NetworkResponse> delete(String url,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) async {
     http.Response response =
-        await http.delete(Uri.parse(changeUrl(url)), headers: headers);
+    await http.delete(Uri.parse(changeUrl(url)), headers: headers);
 
     return NetworkResponse(response.body, response.statusCode);
   }

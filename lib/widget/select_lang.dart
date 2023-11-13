@@ -1,15 +1,10 @@
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-
-import '../providers/darktheme.dart';
-
-import '../../../services/AppLocalizations.dart';
-import '../utils/size.dart';
 import '../utils/theme/theme.dart';
+import '../config/custom_package.dart';
 
 class SelectLanguageDialog extends StatefulWidget {
+  const SelectLanguageDialog({super.key});
+
   @override
   _SelectLanguageDialogState createState() => _SelectLanguageDialogState();
 }
@@ -39,21 +34,15 @@ class _SelectLanguageDialogState extends State<SelectLanguageDialog> {
   }
 
   Widget build(BuildContext context) {
-    late ThemeData themeData;
+    themeData = Theme.of(context);
     return Consumer<AppThemeNotifier>(
       builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
-        int themeType = value.themeMode();
-        themeData = AppTheme.getThemeFromThemeMode(themeType);
-        //customAppTheme = AppTheme.getCustomAppTheme(themeType);
-
-        return
-          Dialog(
+        return Dialog(
           child: Container(
             padding:
             EdgeInsets.only(top: MySize.size16!, bottom: MySize.size16!),
-            child: Text("kk")
-         //   Column(
-                //mainAxisSize: MainAxisSize.min, children: _buildOptions()),
+            child: Column(
+                mainAxisSize: MainAxisSize.min, children: _buildOptions()),
           ),
         );
       },
@@ -66,7 +55,6 @@ class _SelectLanguageDialogState extends State<SelectLanguageDialog> {
     List<Widget> list = [];
 
     for(int i=0;i<AllLanguage.supportedLanguagesCode.length;i++){
-      print(AllLanguage.supportedLanguagesCode.length);
       list.add(InkWell(
         onTap: () {
           _handleRadioValueChange(AllLanguage.supportedLanguagesCode[i]);

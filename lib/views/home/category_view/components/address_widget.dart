@@ -1,0 +1,137 @@
+
+import 'dart:ffi';
+
+import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
+import 'package:userwasil/controller/address.dart';
+import 'package:userwasil/get_address/address_model.dart';
+
+import '../../../../config/custom_package.dart';
+import '../../../../get_address/get_address_controller.dart';
+import '../../../../model/address.dart';
+import '../../../old/models/MyResponse.dart';
+
+
+class AddressWidget extends StatefulWidget {
+
+
+  const AddressWidget({Key? key}) : super(key: key);
+
+
+  @override
+  State<AddressWidget> createState() => _AddressWidgetState();
+}
+
+class _AddressWidgetState extends State<AddressWidget> {
+
+  AddressController controller =Get.put(AddressController());
+
+
+  @override
+  Widget build(BuildContext context) {
+
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    child: Row(
+      children: [
+
+        Column(crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                "Delivering To".tr,
+                style: TextStyle(
+                  fontSize: 14,color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                )
+            ),
+            Row(
+              children: [
+                Obx(() =>      controller.selectedAddress.value.length==0&& controller.listDefaultAddress.isEmpty? Text(' select Address'.tr):controller.selectedAddress.value.length==0?
+
+    Text(
+                ' ${ controller.listDefaultAddress[0].type==0?'Home'.tr: controller.listDefaultAddress[0].type==1?'Work'.tr:'Other'.tr}, ${ controller.listDefaultAddress[0].street}'
+    ,style: const TextStyle(
+    fontSize: 18, color: Colors.black,
+    fontWeight: FontWeight.w600,
+    ))
+
+  // Display selected address in the body
+
+
+                    :Text( controller.selectedAddress.value,        style: const TextStyle(
+    fontSize: 18,color: Colors.black,
+    fontWeight: FontWeight.w400,
+    ))),
+
+        PopupMenuButton<String>(
+          // color: AppColors.primaryColor,
+          icon: const Icon(
+                Icons.keyboard_arrow_down,
+                color: AppColors.primaryColor,
+                size: 20,
+          ),
+          initialValue: null,  onSelected: (selectedItem) {
+
+
+                controller.selectedAddress.value = selectedItem;
+
+        },
+
+          itemBuilder: (BuildContext context) {
+
+                final items = controller.listAddress.map((address) {
+
+                  return PopupMenuItem<String>(
+
+                    onTap: () {
+
+
+
+
+                        controller.lat.value=address.latitude!.toString();
+                        controller.long.value=address.longitude!.toString();
+                        controller.street.value=address.street;
+                        controller.buildingNumber.value=address.buildingNumber!;
+                        controller.apartmentNum.value=address.apartmentNum!.toString();
+                        controller.id.value=address.id!.toString() ;
+
+
+                    },
+                    value: '${address.type==0?'Home':address.type==1?'Work':'Other'} ${address.street}',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(' ${address.type==0?'Home':address.type==1?'Work':'Other'}, ${address.street}',style: const TextStyle(color: AppColors.secondaryColor)),
+                        const Divider(color: AppColors.backgroundColor,)
+                      ],
+                    ),
+                  );
+                }).toList();
+
+                // Add the "Add New Address" option at the end
+                items.add(
+                  PopupMenuItem<String>(
+                    value: 'add_new_address',
+                    child:  Text('Add New Address'.tr),
+                    onTap: () => UserNavigator.of(context).push(const AddAddressScreen()),
+                  ),
+                );
+
+                return items;
+          },
+        ),
+              ],
+            ),
+          ],
+        ) ,
+      ],
+    ),
+  );
+}
+}
+
+
+
+
+

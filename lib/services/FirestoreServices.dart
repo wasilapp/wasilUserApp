@@ -1,168 +1,189 @@
-
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../models/DeliveryBoy.dart';
-import '../models/DeliveryDistanceModel.dart';
-import '../models/UserAddress.dart';
+// import '../models/DeliveryBoy.dart';
+// import '../models/DeliveryDistanceModel.dart';
+// import '../models/UserAddress.dart';
 
-class FirestoreServices{
-
+class FirestoreServices {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('drivers');
 
-       double distance=0;
+  double distance = 0;
+  List qu = [];
 
-    Future<List<DeliveryBoy>> getAllAvaiableDrivers(bool isWater)async {
-
-          List<DeliveryBoy> deliveries =[];
-
-        try{
-          var ds;
-          if(isWater){
-             ds = await collection.where("isOffline" ,isEqualTo: false).where("shop_id" ,isNotEqualTo: 0).get();
-
-             log("water deliveries: "+ds.toString());
-          }else{
-            
-             ds = await collection.where("isOffline" ,isEqualTo: false).where("shop_id" ,isEqualTo:0).get();
-              log("gas deliveries: "+ds.toString());
-          }
-       
-
-       if(ds.docs.isEmpty){
-         
-         log("No Drivers We Must Show Pop up first to the user let him know that there is no drivers right now");
-         
-
-      
-       }else{
-
-          ds.docs.forEach((element) {
-              deliveries.add(DeliveryBoy.fromJson(element.data() as Map<String, dynamic>));
-          },);
-          log(deliveries.length.toString());
-       }
-
-       }catch(e){
-          return [];
-       }
-       return deliveries;
-
-  }
-
-      Future<DeliveryBoy?> getDeliveryBoy(id)async {
-
-      DeliveryBoy? delivery;
-
-        try{
-       var ds = await collection.where("id" ,isEqualTo: id).get();
-
-       if(ds.docs.isEmpty){
-         
-         log("No Drivers We Must Show Pop up first to the user let him know that there is no drivers right now");
-         
-
-      
-       }else{
-
-        
-            delivery=  DeliveryBoy.fromJson(ds.docs.first.data() as Map<String, dynamic>);
-
-            log(delivery.name.toString());
-    
-        
-       }
-
-       }catch(e){
-          return delivery;
-       }
-       return delivery;
-
-  }
-
-  Future<List<DeliveryBoy>> getNearestFiveDrivers(List<DeliveryBoy> deliveries,UserAddress userAddress)async{
-
-    List<DeliveryBoy> nearestDeliveries =[];
-    List<DeliveryDistanceModel> nearestDeliveriesDistance =[];
-
-   
-
-    if(deliveries.length==0){
-        distance=-1;
-    }
-   else{
-
-    await  Future.wait(deliveries.map((delivery) async{
-
-
-            
-
-        double distance =   await  getDistanceBetweenTwoPoints(delivery.latitude!,delivery.longitude!,userAddress.latitude,userAddress.longitude );
-
-       log("near delivey: "+distance.toString());
-        DeliveryDistanceModel deliveryDistanceModel = DeliveryDistanceModel(delivery, distance);
-
-        nearestDeliveriesDistance.add(deliveryDistanceModel);
-
-
-     }));
-        
-         log("nearest deliveries: "+nearestDeliveriesDistance.toString());
-
-         nearestDeliveriesDistance.sort((a, b) => a.distance.compareTo(b.distance));
-      
-
-        List<DeliveryDistanceModel> leastDistanceFiveValues = nearestDeliveriesDistance.take(5).toList();
-
-        if(leastDistanceFiveValues.length > 0){
-          log(leastDistanceFiveValues[0].distance.toString());
-          distance =leastDistanceFiveValues[0].distance;
-          
-        }else{
-          distance = -1;
-        }
-
-        leastDistanceFiveValues.forEach((element) {
-          nearestDeliveries.add(element.deliveryBoy);
-          log(element.distance.toString());
+  Future test() async {
+    await collection
+        .where("isOffline", isEqualTo: false)
+        .where("shop_id", isNotEqualTo: 0)
+        .get()
+        .then((value) async {
+      print('lllllllllllllllllllllllllllllll');
+      print(value.docs.length);
+      for (var i in value.docs) {
+        await FirebaseFirestore.instance
+            .collection('drivers')
+            .doc(i.id)
+            .collection('Items')
+            .where('count', isEqualTo: '6')
+            .get()
+            .then((val) {
+          print('//////////////////////////');
+          qu.add(val.docs);
         });
-         
-    }
-    return nearestDeliveries;
-
+      }
+    });
+    // var ds = data;
+    print('[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+    print(qu);
   }
 
+//   Future<List<DeliveryBoy>> getAllAvaiableDrivers(bool isWater)async {
+//
+//         List<DeliveryBoy> deliveries =[];
+//
+//       try{
+//         var ds;
+//         if(isWater){
+//           QuerySnapshot   data = await collection.where("isOffline" ,isEqualTo: false).where("shop_id" ,isNotEqualTo: 0).get();
+//         var ds = data.docs.where((element) => element['count']>5 && element ['price']=='1');
+//         print('[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+//         print(ds);
+//
+//            log("water deliveries: "+ds.toString());
+//         }else{
+//
+//            ds = await collection.where("isOffline" ,isEqualTo: false).where("shop_id" ,isEqualTo:0).get();
+//             log("gas deliveries: "+ds.toString());
+//         }
+//
+//
+//      if(ds.docs.isEmpty){
+//
+//        log("No Drivers We Must Show Pop up first to the user let him know that there is no drivers right now");
+//
+//
+//
+//      }else{
+//
+//         ds.docs.forEach((element) {
+//             deliveries.add(DeliveryBoy.fromJson(element.data() as Map<String, dynamic>));
+//         },);
+//         log(deliveries.length.toString());
+//      }
+//
+//      }catch(e){
+//         return [];
+//      }
+//      return deliveries;
+//
+// }
+//
+//     Future<DeliveryBoy?> getDeliveryBoy(id)async {
+//
+//     DeliveryBoy? delivery;
+//
+//       try{
+//      var ds = await collection.where("id" ,isEqualTo: id).get();
+//
+//      if(ds.docs.isEmpty){
+//
+//        log("No Drivers We Must Show Pop up first to the user let him know that there is no drivers right now");
+//
+//
+//
+//      }else{
+//
+//
+//           delivery=  DeliveryBoy.fromJson(ds.docs.first.data() as Map<String, dynamic>);
+//
+//           log(delivery.name.toString());
+//
+//
+//      }
+//
+//      }catch(e){
+//         return delivery;
+//      }
+//      return delivery;
+//
+// }
+//
+// Future<List<DeliveryBoy>> getNearestFiveDrivers(List<DeliveryBoy> deliveries,UserAddress userAddress)async{
+//
+//   List<DeliveryBoy> nearestDeliveries =[];
+//   List<DeliveryDistanceModel> nearestDeliveriesDistance =[];
+//
+//
+//
+//   if(deliveries.length==0){
+//       distance=-1;
+//   }
+//  else{
+//
+//   await  Future.wait(deliveries.map((delivery) async{
+//
+//
+//
+//
+//       double distance =   await  getDistanceBetweenTwoPoints(delivery.latitude!,delivery.longitude!,userAddress.latitude,userAddress.longitude );
+//
+//      log("near delivey: "+distance.toString());
+//       DeliveryDistanceModel deliveryDistanceModel = DeliveryDistanceModel(delivery, distance);
+//
+//       nearestDeliveriesDistance.add(deliveryDistanceModel);
+//
+//
+//    }));
+//
+//        log("nearest deliveries: "+nearestDeliveriesDistance.toString());
+//
+//        nearestDeliveriesDistance.sort((a, b) => a.distance.compareTo(b.distance));
+//
+//
+//       List<DeliveryDistanceModel> leastDistanceFiveValues = nearestDeliveriesDistance.take(5).toList();
+//
+//       if(leastDistanceFiveValues.length > 0){
+//         log(leastDistanceFiveValues[0].distance.toString());
+//         distance =leastDistanceFiveValues[0].distance;
+//
+//       }else{
+//         distance = -1;
+//       }
+//
+//       leastDistanceFiveValues.forEach((element) {
+//         nearestDeliveries.add(element.deliveryBoy);
+//         log(element.distance.toString());
+//       });
+//
+//   }
+//   return nearestDeliveries;
+//
+// }
 
-
-  getDistanceBetweenTwoPoints(double lat1,double lang1,double lat2 , double lang2){
-    double distance = Geolocator.distanceBetween(lat1,  lang1, lat2, lang2);
-
-
-    return distance;
-
-  }
-
-    Future<DocumentReference> addDelivery(DeliveryBoy deliveryBoy,{double lat=0.0,double long=0.0}) {
-
-    
-    return collection.add(deliveryBoy.toMap());
-  }
-
-     updateLatLong(DeliveryBoy deliveryBoy,{double lat=0.0,double long=0.0})async {
-
-       var ds = await collection.where("id" ,isEqualTo: deliveryBoy.id).get();
-        await collection.doc(ds.docs.first.id).update({
-            "lat" : lat,
-            "long":long,
-        });
-
-
-}
-
-}
+//   getDistanceBetweenTwoPoints(
+//       double lat1, double lang1, double lat2, double lang2) {
+//     double distance = Geolocator.distanceBetween(lat1, lang1, lat2, lang2);
+//
+//     return distance;
+//   }
+//
+//   Future<DocumentReference> addDelivery(DeliveryBoy deliveryBoy,
+//       {double lat = 0.0, double long = 0.0}) {
+//     return collection.add(deliveryBoy.toMap());
+//   }
+//
+//   updateLatLong(DeliveryBoy deliveryBoy,
+//       {double lat = 0.0, double long = 0.0}) async {
+//     var ds = await collection.where("id", isEqualTo: deliveryBoy.id).get();
+//     await collection.doc(ds.docs.first.id).update({
+//       "lat": lat,
+//       "long": long,
+//     });
+//   }
+// }
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:ordertracking/core/networking/constants.dart';
@@ -183,7 +204,7 @@ class FirestoreServices{
 //       print(e.toString());
 
 //     }
-   
+
 //    return null;
 //   }
 
@@ -198,11 +219,10 @@ class FirestoreServices{
 //             "driver_latitude" : latitude,
 //             "driver_longitude":longitude,
 //         });
-      
+
 //     print("supposed done");
 //     //return collection.add(order.toMap());
 //   }
-
 
 //      changeFirebaseOrderStatus(OrderModel order,int active,int status)async {
 
@@ -211,12 +231,10 @@ class FirestoreServices{
 //             "active" : active,
 //             "status":status,
 //         });
-      
+
 //     print("supposed done");
 //     //return collection.add(order.toMap());
 //   }
-
-
 
 //     Future<OrderModelFirebase> checkOrdersIsExistsAndCreate(OrderModel order)async {
 
@@ -244,8 +262,6 @@ class FirestoreServices{
 //     //return collection.add(order.toMap());
 //   }
 
-
-
 //     Future<OrderModelFirebase?> checkTrackingNumberExists(String trackingNumber)async {
 
 //        var ds = await collection.where("tracking_number",isEqualTo: trackingNumber).get();
@@ -255,17 +271,13 @@ class FirestoreServices{
 //        }else{
 //           return OrderModelFirebase.fromMap(  ds.docs.first.data() as Map<String, dynamic>);
 //        }
-    
+
 //     //return collection.add(order.toMap());
 //   }
 
-
-
-  
 //   // 3
 //   Future<DocumentReference> addOrder(OrderModelFirebase order) {
 
-    
 //     return collection.add(order.toMap());
 //   }
 //   // 4
@@ -277,3 +289,4 @@ class FirestoreServices{
 //     await collection.doc(order.trackingNumber).delete();
 //   }
 // }
+}

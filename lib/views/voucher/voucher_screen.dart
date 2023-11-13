@@ -1,13 +1,13 @@
-import '../../../providers/darktheme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../utils/size.dart';
-import '../../../../utils/theme/theme.dart';
 
-import '../../../../services/AppLocalizations.dart';
-import '../../../utils/color.dart';
-import '../../utils/font.dart';
-import '../../utils/ui/common_views.dart';
+import '../../providers/darktheme.dart';
+import '../../services/AppLocalizations.dart';
+import '../../config/font.dart';
+import '../../utils/helper/size.dart';
+import '../../utils/theme/theme.dart';
+
 class VoucherScreen extends StatefulWidget {
   const VoucherScreen({Key? key}) : super(key: key);
 
@@ -38,72 +38,72 @@ class _VoucherScreenState extends State<VoucherScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Consumer<AppThemeNotifier>(
-      builder: (BuildContext context, AppThemeNotifier value, Widget? child){
-        int themeType = value.themeMode();
-        themeData = AppTheme.getThemeFromThemeMode(themeType);
-        customAppTheme = AppTheme.getCustomAppTheme(themeType);
-        return DefaultTabController(
-          length: 3,
-          child: Scaffold(
-            appBar: CommonViews().getAppBar(
-              title: "Vouchers",
-
-            ),
-
+        builder: (BuildContext context, AppThemeNotifier value, Widget? child){
+          int themeType = value.themeMode();
+          themeData = AppTheme.getThemeFromThemeMode(themeType);
+          customAppTheme = AppTheme.getCustomAppTheme(themeType);
+          return DefaultTabController(
+            length: 3,
+            child: Scaffold(
+                appBar: AppBar(
+                elevation: 2,
+                title: Center(child: Text(Translator.translate("Vouchers"),style: boldSecondry,)),
+               
+                ),
 
             body: Column(
-              children: [
-                SizedBox(height: 30,),
-                Container(
-                  padding: Spacing.all(10),
-                  margin: Spacing.all(20),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: customAppTheme.bgLayer4, width: 1),
+                children: [
+                  SizedBox(height: 30,),
+                  Container(
+                    padding: Spacing.all(10),
+                    margin: Spacing.all(20),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: customAppTheme.bgLayer4, width: 1),
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset("assets/images/copon.png"),
+                        Column(
+                          children: [
+                            Text(Translator.translate("get_code"),style: boldSecondry,),
+                            Text(Translator.translate("add_code"),style: basicSecondry,),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Image.asset("assets/images/copon.png"),
-                      Column(
-                        children: [
-                          Text(Translator.translate("get_code"),style: boldSecondry,),
-                          Text(Translator.translate("add_code"),style: basicSecondry,),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                TabBar(
-                  controller: _tabController,
-                  tabs: [
-                    Tab(text: 'Active'),
-                    Tab(text: 'Used'),
-                    Tab(text: 'Expired'),
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
+                  TabBar(
                     controller: _tabController,
-                    children: [
-                      // Tab 1: Active Vouchers
-                      Center(child: Text('Active Vouchers')),
-                      // Tab 2: Used Vouchers
-                      Center(child: Text('Used Vouchers')),
-                      // Tab 3: Expired Vouchers
-                      Center(child: Text('Expired Vouchers')),
+                    tabs: [
+                      Tab(text: 'Active'),
+                      Tab(text: 'Used'),
+                      Tab(text: 'Expired'),
                     ],
                   ),
-                ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        // Tab 1: Active Vouchers
+                        Center(child: Text('Active Vouchers')),
+                        // Tab 2: Used Vouchers
+                        Center(child: Text('Used Vouchers')),
+                        // Tab 3: Expired Vouchers
+                        Center(child: Text('Expired Vouchers')),
+                      ],
+                    ),
+                  ),
 
               ],
             ),
 
 
 
-          ),
-        );
-      },
+            ),
+          );
+        },
 
-    );
+      );
 
   }
 }

@@ -1,14 +1,20 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:sizer/sizer.dart';
+import 'package:userwasil/config/custom_package.dart';
 import 'package:userwasil/utils/ui/user_text.dart';
 
-import '../../providers/darktheme.dart';
-import '../../utils/font.dart';
+import '../../../providers/darktheme.dart';
+import '../../config/font.dart';
 
-import '../../../../services/AppLocalizations.dart';
-import '../../utils/theme/theme.dart';
-import '../../utils/ui/common_views.dart';
+import '../../../../../services/AppLocalizations.dart';
+import '../../../utils/theme/theme.dart';
+import '../../../utils/ui/common_views.dart';
+import 'my_wallet_controller.dart';
+import 'my_wallet_model.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -25,6 +31,7 @@ class _WalletScreenState extends State<WalletScreen>{
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
   new GlobalKey<ScaffoldMessengerState>();
+  MyWalletController controller = Get.put(MyWalletController());
 
   bool isInProgress = false;
 
@@ -37,200 +44,59 @@ class _WalletScreenState extends State<WalletScreen>{
         themeData = AppTheme.getThemeFromThemeMode(themeType);
         customAppTheme = AppTheme.getCustomAppTheme(themeType);
         return Scaffold(
-          appBar: CommonViews().getAppBar(
-            title: "Wallet",
+           appBar: AppBar(
 
-          ),
+                backgroundColor:  Colors.white,
+                elevation: 0,
+                // shape: const RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.vertical(bottom: Radius.circular(25))),
+                title: const Text('Wallet', style: TextStyle(color: Colors.black,fontSize: 18,
+                  fontWeight: FontWeight.w400,)),
+                centerTitle: true),
 
-          body:  SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-               
-                children: [
-                  const UserText(title: 'Your Balance is',
-                  color: Colors.grey,
-                  ),
-                  const UserText(title: '55 Jd',
-               fontWeight: FontWeight.bold,
-                    fontSize:44 ,
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                        "Movements ",
+            body:  SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+children: [
 
-                        style: TextStyle(
-                          decoration: TextDecoration.combine([
-
-                          ]),
-                          fontSize: 14,
-                          color: Color(0xff15CB95),
-                          fontWeight: FontWeight.w600,
-                        )
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title:Text("Gas Cylinder") ,
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "Qawareercom",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            )
-                        ),
-                        Text(
-                            "07 Apr 2023 9:30 am",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )
-                        )
-                      ],
-                    ),
-trailing: Text(
-    "7.5 JD",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    )
-),
-                  ),
-                  Divider(),  Divider(),
-                  ListTile(
-                    title:Text("Gas Cylinder") ,
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "Qawareercom",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            )
-                        ),
-                        Text(
-                            "07 Apr 2023 9:30 am",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )
-                        )
-                      ],
-                    ),
-trailing: Text(
-    "7.5 JD",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    )
-),
-                  ),
-                  Divider(),  Divider(),
-                  ListTile(
-                    title:Text("Gas Cylinder") ,
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "Qawareercom",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            )
-                        ),
-                        Text(
-                            "07 Apr 2023 9:30 am",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )
-                        )
-                      ],
-                    ),
-trailing: Text(
-    "7.5 JD",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    )
-),
-                  ),
-                  Divider(),  Divider(),
-                  ListTile(
-                    title:Text("Gas Cylinder") ,
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "Qawareercom",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            )
-                        ),
-                        Text(
-                            "07 Apr 2023 9:30 am",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )
-                        )
-                      ],
-                    ),
-trailing: Text(
-    "7.5 JD",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    )
-),
-                  ),
-                  Divider(),  Divider(),
-                  ListTile(
-                    title:Text("Gas Cylinder") ,
-                    subtitle: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "Qawareercom",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            )
-                        ),
-                        Text(
-                            "07 Apr 2023 9:30 am",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            )
-                        )
-                      ],
-                    ),
-trailing: Text(
-    "7.5 JD",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.w600,
-    )
-),
-                  ),
-                  Divider(),
-                ],
+                    Obx(() {
+                      if (controller.isWaiting) {
+                        return ListView.builder(shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              child: Shimmer.fromColors(
+                                  baseColor: Colors.grey,
+                                  highlightColor: Colors.grey.shade300,
+                                  child: Container(
+                                    height: 160,
+                                    width: 100.w,
+                                    color: Colors.grey,
+                                  )),
+                            );
+                          },
+                          itemCount: 10,
+                        );
+                      }
+                      if (controller.isError) {
+                        return Center(
+                          child: Text(controller.statusModel.value.errorMsg!.value),);
+                      }
+                      return ListView.builder(
+                        itemBuilder: (context, index) {
+                          return walletWidget(model: controller.myWalletList[index]);
+                        },
+                        itemCount: controller.myWalletList.length,
+                        shrinkWrap: true,
+                      );
+                    }),
+                  ],
+                ),
               ),
-            ),
-          )
+            )
 
 
 
@@ -256,4 +122,17 @@ trailing: Text(
     );
   }
 
+}
+
+Widget walletWidget({required WalletCouponsAccepted model}) {
+  return Column(
+    children: [
+      ListTile(leading: Text(model.wallet!.id!.toString()),
+        title: Text(model.wallet!.title!.en.toString()),
+        subtitle: Text(model.wallet!.description!.en.toString()),
+        trailing: Text(model.wallet!.usage!.toString()),
+      ),
+      Divider(color: AppColors.borderColor,)
+    ],
+  );
 }

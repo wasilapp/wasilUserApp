@@ -1,7 +1,7 @@
-
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../api/api_util.dart';
+import '../../views/old/api/api_util.dart';
+
 
 class UrlUtils {
   /* Dummy URLs
@@ -12,8 +12,8 @@ class UrlUtils {
   String youtubeUrl = "https://www.youtube.com";
 
   * */
-  
-  
+
+
   static openDocsDownloadPage() {
     openUrl("https://coderthemes.com/emall/downloads.html");
   }
