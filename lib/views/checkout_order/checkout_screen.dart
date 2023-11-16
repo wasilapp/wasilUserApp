@@ -451,7 +451,7 @@ void initState() {
                            },
                              child: Obx(() =>
                           Text(
-                                      controller.totalPrice.toString(),
+                                      controller.calculateTotal().toStringAsFixed(2),
                                       style: (const TextStyle(
                                         color: Colors.black,
                                       ))),
@@ -505,7 +505,7 @@ void initState() {
                                   fontWeight: FontWeight.bold)),
                             ),
                             Text(
-                              '${schedulerFees + deliveryFee + controller.totalPrice()}',
+                              '${schedulerFees + deliveryFee + controller.totalPrice.value}',
                               style: (const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
@@ -553,6 +553,7 @@ void initState() {
                       onPressed: () async {
                         log('lll');
                         log('555555');
+                        log(controller.shop!.toString());
 
 
                      //   print(DateTime.now().hour);
@@ -573,7 +574,11 @@ void initState() {
                               backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM,
                               icon: const Icon(Icons.error_outline));}
 
-
+else if(controller.shop!.open==0){
+    Get.snackbar('  order not success ', 'shop selected closed'.tr,
+    backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM,
+    icon: const Icon(Icons.error_outline));
+                        }
 
                         else {
                           orderController.createOrder(

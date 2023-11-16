@@ -12,7 +12,7 @@ class OrderModel {
   dynamic? latitude;
   dynamic? longitude;
   Null? couponId;
-  Null? deliveryBoyId;
+  int? deliveryBoyId;
   int? userId;
   int? addressId;
   int? shopId;
@@ -33,7 +33,7 @@ class OrderModel {
   User? user;
   Null? coupon;
   Address? address;
-  Null? deliveryBoy;
+  dynamic? deliveryBoy;
   OrderPayment? orderPayment;
   OrderTime? orderTime;
 

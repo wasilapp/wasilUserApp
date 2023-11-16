@@ -177,41 +177,7 @@ class _MyAppState extends State<MyApp> {
       await FlutterNotificationView().firebaseMessagingBackgroundHandler(message);
     });
   }
-  void initState() {
-    initFCM();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      log('lllllllllllllllll');
-      RemoteNotification notification = message.notification!;
-      AndroidNotification android = message.notification!.android!;
-      if (notification != null && android != null) {
-        FlutterNotificationView()
-            .showNotification('kkkkk', 'k');
-      }
-    });
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   print('------------------------------------------------------');
-    //   RemoteNotification notification = message.notification!;
-    //
-    //   AndroidNotification android = message.notification!.android!;
-    //   print(message.notification);
-    //   print('------------------------------------------------------');
-    //   if (notification != null && android != null) {
-    //     NotificationModel response=NotificationModel.fromJson(message.data);
-    //
-    //       print(message.notification);
-    //       print(response.body['en']);
-    //       flutterLocalNotificationsPlugin.show(message.hashCode, response.title['en'], response.body['en'], NotificationDetails(
-    //           android: AndroidNotificationDetails(
-    //               androidChannel.id,androidChannel.name,color:AppColors.primaryColor,playSound: true,
-    //               enableVibration: true
-    //           )
-    //       ));
-    //     FlutterNotificationView()
-    //         .showNotification(notification.title!, notification.body!);
-    //   }
-    // });
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {

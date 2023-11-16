@@ -218,7 +218,7 @@ class SubCategory {
   int? id;
   Title? title;
   Title? description;
-  double? price;
+  dynamic? price;
   Null? shopId;
   int? categoryId;
   int? active;

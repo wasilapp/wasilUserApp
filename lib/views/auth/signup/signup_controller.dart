@@ -72,6 +72,7 @@ print("fcmToken$fcmToken");
         Get.snackbar('success register', 'welcome $name to application wasil',
             backgroundColor: AppColors.primaryColor, snackPosition: SnackPosition.BOTTOM,
             icon: Icon(Icons.waving_hand));
+        Get.off(SignInScreen());
         return;
       } else {
         log("i am is the not 200 method");

@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import '../../controller/address.dart';
 import '../home/category_view/components/address_widget.dart';
 import '../nearset_order_main_subcategory/main_subcategory_view.dart';
+import '../nearset_order_main_subcategory/ss.dart';
 import '../subcategory_shop/subcategories_view.dart';
 import 'driver_model.dart';
 class DriversScreen extends StatefulWidget {
@@ -152,8 +153,7 @@ buildDriver(DeliveryBoy driver){
                 ]),
             onTap: () {
               print(driver.id);
-              Get.to(SubCategoryByDriverScreen(),arguments: {
-  'driverId': driver.id,});
+              Get.to(DDD());
             },
           ),
         ),

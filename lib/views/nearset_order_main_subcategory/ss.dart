@@ -9,7 +9,9 @@ import '../../config/custom_package.dart';
 import '../../controller/address.dart';
 import '../../core/locale/locale.controller.dart';
 import '../../utils/ui/product_widget.dart';
+import '../checkout_order/checkout_screen.dart';
 import '../home/category_view/components/address_widget.dart';
+import 'checkout_view.dart';
 
 
 
@@ -51,7 +53,7 @@ class DDD extends StatelessWidget {
             child: Text(controller.statusModel.value.errorMsg!.value),
           );
         }
-        return Column(
+        return Column(crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
           AddressWidget(),
 
@@ -65,7 +67,7 @@ class DDD extends StatelessWidget {
           const Spacer(),
           CommonViews().createButton(title: 'checkOut', onPressed: () {
 
-            //Get.to(CheckoutScreen());
+           Get.to(CheckoutScreenDriver());
           },),
 
 

@@ -47,7 +47,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           return
             SizedBox(height: 250,
               child: ListView.builder(
-                scrollDirection: Axis.horizontal,physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,physics: ClampingScrollPhysics(),
                 itemBuilder: (context, index) =>  buildCategory(snapshot.data![index]),
                 itemCount: snapshot.data!.length,
                 shrinkWrap: true,),
@@ -94,7 +94,9 @@ else{
 
     ,long:controllerAddress.long,)):
 
-Get.to(DDD());
+Get.to(DriversScreen(id:category.id,lat:controllerAddress.lat
+
+  ,long:controllerAddress.long,));
 
 }
 

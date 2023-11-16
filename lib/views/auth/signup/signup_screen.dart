@@ -359,7 +359,7 @@ class RegisterScreenState extends State<RegisterScreen> {
           //           },
           //         ),
           const SizedBox(height: 10,),
-            Obx(() =>    Container(
+            signUpController.errorList.length==0?Text('') :    Obx(() =>    Container(
               margin: EdgeInsets.only(left: 20,top: 20),
               height: 90,
               child: signUpController.errorList.isNotEmpty

@@ -13,6 +13,8 @@ class MyTranslation  implements Translations{
       "Arabic Language":"الغة العربية",
       "English Language":"الغة الانجليزية ",
       "Home":"المنزل",
+      "Home":"المنزل",
+      "Ratings":"التقيم",
       "Work":"العمل",
       "Mobile":"رقم الهاتف",
       "Mobile":"الكمية",

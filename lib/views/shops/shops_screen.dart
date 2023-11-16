@@ -198,7 +198,7 @@ Widget buildShop(ShopsModel shop){
 
 
             title: Text(
-               controller.language=='en'? shop.nameEn!.toString():shop.nameAr.toString(),
+               controller.language=='en'? shop.shopNameEn!.toString():shop.shopNameAr.toString(),
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
@@ -231,7 +231,7 @@ Widget buildShop(ShopsModel shop){
                         ),
                         const SizedBox(width: 10,),
                         Text(
-                            "(${  shop.totalRating.toString()} Ratings)",
+                            "(${  shop.totalRating.toString()}"+"Ratings".tr+")",
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -248,7 +248,7 @@ Widget buildShop(ShopsModel shop){
               print(shop.open);
               print(shop.avatarUrl);
             Get.to(const       SubCategoryByShopScreen(),arguments: {
-              'shopId': shop.id, 'logo': shop.avatarUrl,
+              'shopId': shop.id, 'logo': shop.avatarUrl,'shop':shop
             });
             },
           ),
@@ -266,7 +266,7 @@ Widget buildAddress(){
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-            "Delivering To",
+            "Delivering To".tr,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,

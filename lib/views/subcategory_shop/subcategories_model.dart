@@ -146,9 +146,9 @@ class SubCategoriesModel {
 
     data['price'] = this.price;
 
-    data['total'] = this.counter;
+    data['total'] = this.price* this.counter;
 
-    data['quantity'] = this.quantity;
+    data['quantity'] = this.counter;
 
 
     return data;

@@ -8,6 +8,7 @@ import 'package:userwasil/model/cart_model.dart';
 import 'package:userwasil/views/subcategory_shop/subcategories_model.dart';
 
 import '../../../controller/general_status_model.dart';
+import '../shops/shop_model.dart';
 import '../wallet_shop/wallet_by_shop_controller.dart';
 
 
@@ -19,6 +20,7 @@ class SubCategoriesController extends GetxController {
   var productList = [].obs;
   String ?logo;
   int ?shopId;
+  ShopsModel ?shop;
   var totalPrice=0.0.obs;
 
 
@@ -48,9 +50,10 @@ class SubCategoriesController extends GetxController {
   }
 
   double calculateTotal() {
-totalPrice.value=0.0;
+    totalPrice.value=0.0;
     for (int i = 0; i < cartList.length; i++) {
       totalPrice.value += cartList[i].counter * (cartList[i]?.price?? 0);
+
     }
     return totalPrice.value;
   }
@@ -85,9 +88,12 @@ totalPrice.value=0.0;
   @override
   void onInit() {
     shopId=Get.arguments['shopId'];
+    shop=Get.arguments['shop'];
     logo=Get.arguments['logo'];
+
     getProducts(shopId);
     print('-****************************');
+    print(shop);
 print(productList);
 print(cartList);
     super.onInit();

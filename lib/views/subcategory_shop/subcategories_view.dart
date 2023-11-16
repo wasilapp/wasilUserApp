@@ -33,67 +33,59 @@ class SubCategoryByShopScreen extends StatelessWidget {
             children: [
               Obx(() {
                 if (controller.isWaiting) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
+                 Container(
                         margin:
                             EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
                         child: Shimmer.fromColors(
                             baseColor: AppColors.borderColor,
                             highlightColor: Colors.grey.shade300,
                             child: Container(
-                              height: 20.h,
-                              width: 20.w,
+                              height: 5.h,
+                              width: 5.w,
                               color: Colors.grey,
                             )),
                       );
-                    },
-                    itemCount: 5,
-                  );
+
                 }
                 if (controller.isError) {
                   return Center(
                     child: Text(controller.statusModel.value.errorMsg!.value),
                   );
                 }
-                return Column(children: [
-                  ListView.builder(
-                    itemBuilder: (context, index) {
-                      return ProductWidget(model: controller.productList[index]);
-                    },
-                    itemCount: controller.productList.length,
-                    shrinkWrap: true,
-                  ),
-
-                ]);
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ProductWidget(model: controller.productList[index]);
+                  },
+                  itemCount: controller.productList.length,
+                  shrinkWrap: true,
+                );
               }),
               Obx(() {
-                if (controllerWallet.isWaiting) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin:
-                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
-                        child: Shimmer.fromColors(
-                            baseColor: AppColors.borderColor,
-                            highlightColor: Colors.grey.shade300,
-                            child: Container(
-                              height: 20.h,
-                              width: 20.w,
-                              color: Colors.grey,
-                            )),
-                      );
-                    },
-                    itemCount: 5,
-                  );
-                }
-                if (controllerWallet.isError) {
-                  return Center(
-                    child: Text(controllerWallet.statusModel.value.errorMsg!.value),
-                  );
-                }
+                // if (controllerWallet.isWaiting) {
+                //   return ListView.builder(
+                //     shrinkWrap: true,
+                //     itemBuilder: (context, index) {
+                //       return Container(
+                //         margin:
+                //         EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                //         child: Shimmer.fromColors(
+                //             baseColor: AppColors.borderColor,
+                //             highlightColor: Colors.grey.shade300,
+                //             child: Container(
+                //               height: 20.h,
+                //               width: 20.w,
+                //               color: Colors.grey,
+                //             )),
+                //       );
+                //     },
+                //     itemCount: 5,
+                //   );
+                // }
+                // if (controllerWallet.isError) {
+                //   return Center(
+                //     child: Text(controllerWallet.statusModel.value.errorMsg!.value),
+                //   );
+                // }
                 return Column(children: [
                   ListView.builder(
                     itemBuilder: (context, index) {

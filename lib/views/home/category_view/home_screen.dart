@@ -1,5 +1,7 @@
 
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '../../../config/custom_package.dart';
 import '../../old/detail/order_detail.dart';
 import 'components/address_widget.dart';
@@ -12,6 +14,46 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 class _HomeScreenState extends State<HomeScreen> {
+  void initState() {
+    getToken();
+    fcm();
+    onMessage();
+    // initFCM();
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   log('lllllllllllllllll');
+    //   print(message.data);
+    //   RemoteNotification notification = message.notification!;
+    //   AndroidNotification android = message.notification!.android!;
+    //   if (notification != null && android != null) {
+    //     FlutterNotificationView()
+    //         .showNotification('kkkkk', 'k');
+    //   }
+    // });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   print('------------------------------------------------------');
+    //   RemoteNotification notification = message.notification!;
+    //
+    //   AndroidNotification android = message.notification!.android!;
+    //   print(message.notification);
+    //   print('------------------------------------------------------');
+    //   if (notification != null && android != null) {
+    //     NotificationModel response=NotificationModel.fromJson(message.data);
+    //
+    //       print(message.notification);
+    //       print(response.body['en']);
+    //       flutterLocalNotificationsPlugin.show(message.hashCode, response.title['en'], response.body['en'], NotificationDetails(
+    //           android: AndroidNotificationDetails(
+    //               androidChannel.id,androidChannel.name,color:AppColors.primaryColor,playSound: true,
+    //               enableVibration: true
+    //           )
+    //       ));
+    //     FlutterNotificationView()
+    //         .showNotification(notification.title!, notification.body!);
+    //   }
+    // });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,5 +106,33 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     ));
+  }
+  onMessage(){
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
+  }
+  getToken(){
+    FirebaseMessaging.instance.getToken().then((value) => print(value));
+  }
+  fcm() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
   }
 }

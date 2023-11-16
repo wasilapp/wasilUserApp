@@ -5,12 +5,12 @@ import '../../core/locale/locale.controller.dart';
 import 'orders_controller.dart';
 
 class DetailOrder extends StatelessWidget {
-  const DetailOrder({super.key});
-
+   DetailOrder({super.key});
+  OrderController controller =Get.put(OrderController());
+  LocaleController controllerLocale =Get.put(LocaleController());
   @override
   Widget build(BuildContext context) {
-    OrderController controller =Get.put(OrderController());
-    LocaleController controllerLocale =Get.put(LocaleController());
+
     return SafeArea(
       child: Scaffold( appBar: AppBar(            iconTheme: IconThemeData(color: Colors.black),elevation: 0,
         // title: Text('checkOut'.tr,style: TextStyle(color:Color(0xff373636),fontSize: 18,
