@@ -2,13 +2,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
-
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:userwasil/model/cart_model.dart';
-import 'package:userwasil/views/subcategory_shop/subcategories_model.dart';
-
-import '../../../controller/general_status_model.dart';
-import '../wallet_shop/wallet_by_shop_controller.dart';
+import 'package:userwasil/controller/general_status_model.dart';
 import 'main_sub_model.dart';
 
 
@@ -17,7 +11,7 @@ import 'main_sub_model.dart';
 class MainCategoriesController extends GetxController {
 
   int counter = 0;
-  var productList = [].obs;
+  List<MainSubcategoryModel> productList = <MainSubcategoryModel>[].obs;
   String ?logo;
   int ?shopId;
   var totalPrice=0.0.obs;
@@ -25,13 +19,13 @@ class MainCategoriesController extends GetxController {
 
 
 
-  var _cartList = <MainSubcategoryModel>[].obs;
+  List<MainSubcategoryModel> _cartList = <MainSubcategoryModel>[].obs;
   var  cartOrder;
 
 
 
   get  cartList {
-    var cartList1 = productList.value.where((product) => product.counter > 0).toList();
+    var cartList1 = productList.where((product) => product.counter! > 0).toList();
 
 
 
@@ -42,9 +36,6 @@ class MainCategoriesController extends GetxController {
 
   void  gett(){
     cartOrder=  cartList.map((e) =>e.tooJson()).toList();
-
-    print(cartOrder);
-    print(calculateTotal());
   }
 
   double calculateTotal() {
@@ -55,25 +46,6 @@ class MainCategoriesController extends GetxController {
     return totalPrice.value;
   }
 
-
-  // get cartOrder {
-  //
-  //
-  //   productList.forEach((cartItem) {
-  //     cartOrder.add(Carts(
-  //       subCategoriesId: cartItem['id'],
-  //       price:  cartItem['price'],
-  //
-  //
-  //     ));
-  //   });
-  // }
-
-
-  // set cartOrder(value) {
-  //   _cartOrder = value;
-  // }
-
   set cartList(value) {
     _cartList = value;
   }
@@ -81,15 +53,12 @@ class MainCategoriesController extends GetxController {
 
 
 
-  late var statusModel = GeneralStatusModel().obs;
+  late Rx<GeneralStatusModel> statusModel = GeneralStatusModel().obs;
   @override
   void onInit() {
 
 
     getProducts();
-    print('-****************************');
-    print(productList);
-    print(cartList);
     super.onInit();
   }
   double getTotalPriceInCart2() {
@@ -114,7 +83,7 @@ class MainCategoriesController extends GetxController {
   }
 
   void getProducts() async {
-    print('start get product  id$shopId');
+    print('l');
     statusModel.value.updateStatus(GeneralStatus.waiting);
     var url = Uri.parse('https://news.wasiljo.com/public/api/v1/user/categories/2/subcategories');
     var response = await http.get(
@@ -125,21 +94,17 @@ class MainCategoriesController extends GetxController {
       // قبل إضافة المنتجات الجديدة، قم بحفظ قيم العدادات الحالية
       Map<int, int> counters = {};
       for (var product in productList) {
-        counters[product.id] = product.counter;
+        counters[product.id!] = product.counter!;
       }
       productList.clear();
-      print('response.statusCode  id${response.statusCode}');
-      print('response.body  id${json.decode(response.body)}');
 
       if (json.decode(response.body).isEmpty) {
-        print('response.isEmpty  id${json.decode(response.body)}');
 
         statusModel.value.updateStatus(GeneralStatus.error);
         statusModel.value.updateError("No Result Found");
         return;
       }
-      List result = json.decode(response.body);
-      print('start for');
+      var result = json.decode(response.body)['data']['subcategories'];
 
       for (int index = 0; index < result.length; index++) {
         MainSubcategoryModel product = MainSubcategoryModel.fromJson(result[index]);
@@ -151,7 +116,6 @@ class MainCategoriesController extends GetxController {
 
       }
       statusModel.value.updateStatus(GeneralStatus.success);
-      print(response.body);
       return;
     }
     statusModel.value.updateStatus(GeneralStatus.error);
@@ -176,8 +140,6 @@ class MainCategoriesController extends GetxController {
   double get totalCount {
     double sum = 0;
     for (var model in cartList) {
-      print(model.counter);
-      print('model.total');
       sum += model.counter;
     }
     return sum;

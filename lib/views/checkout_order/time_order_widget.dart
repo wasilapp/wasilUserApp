@@ -31,7 +31,7 @@ class _HourSelectionListState extends State<HourSelectionList> {
             children: [
               SizedBox(width: 150,
                 child: DropdownButtonFormField<String>(focusColor: Colors.white,dropdownColor: Colors.white,
-                  decoration: const InputDecoration(filled: true,fillColor: Colors.white,enabledBorder: OutlineInputBorder(
+                  decoration:  InputDecoration(filled: true,fillColor: Colors.white,enabledBorder: OutlineInputBorder(
                       borderRadius:BorderRadius.all(Radius.circular(10)),
                       borderSide:BorderSide(color: AppColors.borderColor,width: 2)
                   ),
@@ -40,7 +40,7 @@ class _HourSelectionListState extends State<HourSelectionList> {
                  border: OutlineInputBorder(
                      borderRadius:BorderRadius.all(Radius.circular(10)),
                      borderSide:BorderSide(color: AppColors.borderColor,width: 2)),
-                    hintText: 'from',labelText: 'From Houre'
+                    hintText: 'from'.tr,labelText: 'From Hour'.tr
                   ),
                   value: HourSelectionList.startHour,
                   items:   [
@@ -88,7 +88,7 @@ class _HourSelectionListState extends State<HourSelectionList> {
                  border: OutlineInputBorder(
                      borderRadius:BorderRadius.all(Radius.circular(10)),
                      borderSide:BorderSide(color: AppColors.borderColor,width: 2)),
-                    hintText: 'to',labelText: 'to Houre'
+                    hintText: 'to',labelText: 'to Hour'
                   ),
                   value:  HourSelectionList.endHour,
 

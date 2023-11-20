@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:userwasil/config/custom_package.dart';
 
-
 import '../core/constant/colors.dart';
-
 
 final TextStyle basicPrimary = GoogleFonts.openSans(
   fontSize: 15,
@@ -51,6 +48,4 @@ final TextStyle greysmall = GoogleFonts.openSans(
 final TextStyle whitebasic = GoogleFonts.openSans(
   color: Colors.white,
   fontSize: 11.0.sp,
-
 );
-

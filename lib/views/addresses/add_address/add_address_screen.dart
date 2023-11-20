@@ -231,7 +231,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                 key: _scaffoldKey,
                 appBar: AppBar(
                   title: Text(
-                    Translator.translate("address"),
+                    Translator.translate("address".tr),
                     style: const TextStyle(color: Colors.black),
                   ),
                   centerTitle: true,
@@ -267,7 +267,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                       child: SearchMapPlaceWidget(
                         bgColor: Colors.transparent,
                         iconColor: Colors.black,
-                        placeholder: 'Search Location',
+                        placeholder: 'Search Location'.tr,
                         placeType: PlaceType.address,
                         hasClearButton: false,
                         textColor: Colors.black,
@@ -302,7 +302,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                       });
                                     }),
                                 Text(
-                                  Translator.translate("home"),
+                                  Translator.translate("home".tr),
                                   style: AppTheme.getTextStyle(
                                     themeData.textTheme.bodyText2,
                                     color: themeData.colorScheme.onBackground,
@@ -318,7 +318,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                       });
                                     }),
                                 Text(
-                                  Translator.translate("work"),
+                                  Translator.translate("work".tr),
                                   style: AppTheme.getTextStyle(
                                     themeData.textTheme.bodyText2,
                                     color: themeData.colorScheme.onBackground,
@@ -334,7 +334,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                       });
                                     }),
                                 Text(
-                                  Translator.translate("other"),
+                                  Translator.translate("other".tr),
                                   style: AppTheme.getTextStyle(
                                     themeData.textTheme.bodyText2,
                                     color: themeData.colorScheme.onBackground,
@@ -361,17 +361,17 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   TextFormFieldAddress(
-                                      hintText: 'Name Address',
+                                      hintText: 'Name Address'.tr,
                                       controller: nameTFController!,
                                       prefixIconData: Icons.display_settings),
                                   TextFormFieldAddress(
-                                    hintText: 'street_name',
+                                    hintText: 'street_name'.tr,
                                     readOnly: true,
                                     controller: streetTFController!,
                                     prefixIconData: Icons.location_on_sharp,
                                   ),
                                   TextFormFieldAddress(
-                                    hintText: 'building_number',
+                                    hintText: 'building_number'.tr,
                                     controller: buildingNumberTFController!,
                                     prefixIconData: Icons.add_location_alt,
                                   ),
@@ -383,7 +383,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                           readOnly: true,
                                           controller: cityTFController!,
                                           prefixIconData:
-                                              Icons.location_on_sharp, hintText: 'city',
+                                              Icons.location_on_sharp, hintText: 'city'.tr,
                                         ),
                                       ),
                                       Expanded(
@@ -394,7 +394,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                             style: allTFStyle,
                                             decoration: InputDecoration(
                                               hintText: Translator.translate(
-                                                  "apartment_number"),
+                                                  "apartment_number".tr),
                                               border: allTFBorder,
                                               enabledBorder: allTFBorder,
                                               focusedBorder: allTFBorder,
@@ -475,7 +475,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                               // ),
                                               Text(
                                                   Translator.translate(
-                                                          "save_address")
+                                                          "save_address".tr)
                                                       .toUpperCase(),
                                                   style: AppTheme.getTextStyle(
                                                       themeData

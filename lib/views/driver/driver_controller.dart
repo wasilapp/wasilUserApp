@@ -2,12 +2,8 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
-
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:userwasil/model/cart_model.dart';
-
-import '../../controller/general_status_model.dart';
+import 'package:userwasil/controller/general_status_model.dart';
 import 'driver_model.dart';
 
 
@@ -15,7 +11,7 @@ import 'driver_model.dart';
 
 class DriverController extends GetxController {
   late int id;
-  var latitude, longitude;
+  dynamic latitude, longitude;
   DriverController({required this.id,required this.latitude,required this.longitude});
   var driverList = [].obs;
   late var statusModel = GeneralStatusModel().obs;

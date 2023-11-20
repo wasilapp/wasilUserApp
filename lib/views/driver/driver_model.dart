@@ -10,7 +10,7 @@ class DeliveryBoy {
   String? email;
   String? emailVerifiedAt;
   String? password;
-  Null? fcmToken;
+  String? fcmToken;
   double? latitude;
   double? longitude;
   int? isFree;
@@ -28,7 +28,7 @@ class DeliveryBoy {
   String? drivingLicense;
   int? isApproval;
   double? distance;
-  Null? otp;
+  dynamic otp;
   int? fullGasBottles;
   int? emptyGasBottles;
   int? gasBottlesCapacity;

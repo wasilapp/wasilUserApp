@@ -1,37 +1,17 @@
-
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:userwasil/services/PushNotificationsManager.dart';
 import 'package:userwasil/services/f.dart';
 
 import 'package:userwasil/services/services.dart';
-import 'package:userwasil/utils/theme/theme.dart';
-import 'package:userwasil/views/home/category_view/home_screen.dart';
-import 'package:userwasil/views/old/MaintenanceScreen.dart';
-import 'package:userwasil/views/old/api/api_util.dart';
-import 'package:userwasil/views/old/controllers/AppDataController.dart';
-import 'package:userwasil/views/old/models/AppData.dart';
-import 'package:userwasil/views/old/models/MyResponse.dart';
 import 'package:userwasil/views/splash/splash_screen.dart';
 
-
 import 'config/custom_package.dart';
-import 'controller/AuthController.dart';
-import 'controller/AuthController_new.dart';
 import 'core/locale/locale.controller.dart';
 import 'core/locale/translation.dart';
 import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // const AndroidNotificationChannel androidChannel = AndroidNotificationChannel(
 //     'android_channel', // id
@@ -127,14 +107,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //
 // }
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();//by ready firebase
+  WidgetsFlutterBinding.ensureInitialized(); //by ready firebase
   await Firebase.initializeApp(
-
     options: DefaultFirebaseOptions.currentPlatform,
   );
   print("***************************************************");
   try {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
     print("Firebase initialized successfully");
   } catch (e) {
     print("Error initializing Firebase: $e");
@@ -147,7 +127,7 @@ Future<void> main() async {
 
   await initialServices();
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) async {
     // String langCode = await AllLanguage.getLanguage();
     //await Translator.load(langCode);
@@ -168,37 +148,32 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   initFCM() async {
-
     PushNotificationsManager pushNotificationsManager =
-    PushNotificationsManager();
+        PushNotificationsManager();
     await pushNotificationsManager.init();
     FirebaseMessaging.onBackgroundMessage((message) async {
       print("Handling background message: ");
-      await FlutterNotificationView().firebaseMessagingBackgroundHandler(message);
+      await FlutterNotificationView()
+          .firebaseMessagingBackgroundHandler(message);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     LocaleController controller = Get.put(LocaleController());
 
-
-    return
-      Consumer<AppThemeNotifier>(
-        builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
-          return Sizer(builder: (context, orientation, deviceType) {
-            return GetMaterialApp(
-                locale: controller.language,
-                //theme:  AppTheme.getThemeFromThemeMode(value.themeMode()),
-                translations: MyTranslation(),
-                debugShowCheckedModeBanner: false,
-
-                home:  SplashScreen());}
-
-          );
-        },
-      );
+    return Consumer<AppThemeNotifier>(
+      builder: (BuildContext context, AppThemeNotifier value, Widget? child) {
+        return Sizer(builder: (context, orientation, deviceType) {
+          return GetMaterialApp(
+              locale: controller.language,
+              //theme:  AppTheme.getThemeFromThemeMode(value.themeMode()),
+              translations: MyTranslation(),
+              debugShowCheckedModeBanner: false,
+              home: SplashScreen());
+        });
+      },
+    );
   }
 }
 
@@ -237,5 +212,3 @@ class NotificationModel {
     };
   }
 }
-
-

@@ -6,18 +6,16 @@ import '../../../config/custom_package.dart';
 import '../nearset_order_main_subcategory/checkout_view.dart';
 import '../nearset_order_main_subcategory/main_sub_controller.dart';
 
-
 class SubCategoryByDriverScreen extends StatelessWidget {
   const SubCategoryByDriverScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    MainSubcategoryController controller=Get.put(MainSubcategoryController());
+    MainSubcategoryController controller = Get.put(MainSubcategoryController());
 
     return RefreshIndicator(
       onRefresh: () async {
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         controller.getMainSubcategory();
         return;
       },
@@ -31,7 +29,7 @@ class SubCategoryByDriverScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Container(
                     margin:
-                    EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
                     child: Shimmer.fromColors(
                         baseColor: AppColors.borderColor,
                         highlightColor: Colors.grey.shade300,
@@ -53,7 +51,8 @@ class SubCategoryByDriverScreen extends StatelessWidget {
             return Column(children: [
               ListView.builder(
                 itemBuilder: (context, index) {
-                  return ProductWidget(model: controller.mainSubcategoryList[index]);
+                  return ProductWidget(
+                      model: controller.mainSubcategoryList[index]);
                 },
                 itemCount: controller.mainSubcategoryList.length,
                 shrinkWrap: true,
@@ -94,7 +93,7 @@ class SubCategoryByDriverScreen extends StatelessWidget {
                         } else {
                           print('controller.gett');
 
-controller.gett();
+                          controller.gett();
                           // UserNavigator.of(context).push(CheckoutScreenDriver());
                         }
                       },

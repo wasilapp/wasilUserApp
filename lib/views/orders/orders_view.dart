@@ -92,14 +92,14 @@ controller.getDetailOrders(order.id!);
           Get.to(DetailOrder());
             }
               ,icon:  Icon(Icons.arrow_forward_ios,color: AppColors.primaryColor,size: 15)),
-          leading: Image.network('https://seeklogo.com/images/R/risingwave-icon-logo-837E37238C-seeklogo.com.png'),
+          // leading: Image.network(order.),
           title:    Text(controllerLocale.language== 'en' ?' s':'${order.statu!.title!.ar}',
               style: TextStyle(color: AppColors.primaryColor,fontSize: 12,fontWeight: FontWeight.w400)),
 
           subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(controllerLocale.language=='en'?' ${order.shop!.name!.en}':'${order.shop!.name!.ar}',
-              style: TextStyle(color: AppColors.secondaryColor,fontSize: 14,fontWeight: FontWeight.w400)),
+              //   Text(controllerLocale.language=='en'?' ${order.shop!.name!.en}':'${order.shop!.name!.ar}',
+              // style: TextStyle(color: AppColors.secondaryColor,fontSize: 14,fontWeight: FontWeight.w400)),
 
 
                 Row(

@@ -69,7 +69,7 @@ print("fcmToken$fcmToken");
         await sharedPreferences.setString('token', token);
         await sharedPreferences.setString('mobile', user['mobile']);
         await sharedPreferences.setBool('mobile_verified', true);
-        Get.snackbar('success register', 'welcome $name to application wasil',
+        Get.snackbar('success register'.tr, 'welcome'.tr   +'${name}' +  'to application wasil'.tr,
             backgroundColor: AppColors.primaryColor, snackPosition: SnackPosition.BOTTOM,
             icon: Icon(Icons.waving_hand));
         Get.off(SignInScreen());

@@ -213,6 +213,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     margin: Spacing.top(16),
                     child: InkWell(
                       onTap: () {
+                        controllerSignIn.errorText.value='';
                         Navigator.push(
                             context,
                             MaterialPageRoute(

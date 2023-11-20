@@ -242,7 +242,7 @@ cancelOrder(int idOrder) async {
 
   if (response.statusCode == 200) {
     getOrders();
-    Get.snackbar(' added order success ', 'send order by shop',
+    Get.snackbar('cancel order success', '',
         backgroundColor: AppColors.primaryColor, snackPosition: SnackPosition.BOTTOM,
        );
     print(await response.stream.bytesToString());

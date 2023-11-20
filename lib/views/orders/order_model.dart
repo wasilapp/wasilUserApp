@@ -6,7 +6,7 @@ class OrderModel {
   int? shopRevenue;
   Null? adminRevenue;
   int? deliveryFee;
-  int? total;
+  dynamic? total;
   int? otp;
   Null? couponDiscount;
   dynamic? latitude;
@@ -24,7 +24,7 @@ class OrderModel {
   int? isPaid;
   int? isWallet;
   Null? walletId;
-  Null? expeditedFees;
+  dynamic? expeditedFees;
   String? createdAt;
   String? updatedAt;
   Statu? statu;
@@ -185,7 +185,7 @@ class Carts {
   int? subCategoriesId;
   int? quantity;
   int? price;
-  int? total;
+  dynamic? total;
   String? createdAt;
   String? updatedAt;
 

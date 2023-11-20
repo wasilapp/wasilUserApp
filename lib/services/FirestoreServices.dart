@@ -20,23 +20,37 @@ class FirestoreServices {
         .where("shop_id", isNotEqualTo: 0)
         .get()
         .then((value) async {
-      print('lllllllllllllllllllllllllllllll');
-      print(value.docs.length);
+
       for (var i in value.docs) {
         await FirebaseFirestore.instance
             .collection('drivers')
             .doc(i.id)
             .collection('Items')
-            .where('count', isEqualTo: '6')
-            .get()
-            .then((val) {
-          print('//////////////////////////');
-          qu.add(val.docs);
-        });
+        .where('id',isEqualTo: 'item.id').get().then(
+         (value) {
+           if(value==true){
+             FirebaseFirestore.instance
+                 .collection('drivers')
+                 .doc(i.id)
+                 .collection('Items'). where('count', isEqualTo: '6')
+                 .get()
+                 .then((val) {
+
+               // qu.add(val.docs['id']);
+             });
+           }
+
+         } );
+        //     .where('count', isEqualTo: '6')
+        //     .get()
+        //     .then((val) {
+        //
+        //   qu.add(val.docs);
+        // });
       }
     });
     // var ds = data;
-    print('[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
+
     print(qu);
   }
 

@@ -44,6 +44,7 @@ dependencies:
   custom_searchable_dropdown: 2.1.1
   pinput: ^3.0.1
   dio: ^ 5.3.3
+  card_swiper: ^3.0.1
   share: ^2.0.4
   get: ^4.6.6
   time_range: ^1.1.0

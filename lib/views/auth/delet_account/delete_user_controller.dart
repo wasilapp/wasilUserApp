@@ -38,7 +38,7 @@ if(response.statusCode==200){
     await sharedPreferences.remove('mobile_verified');
     await sharedPreferences.remove('blocked');
 
-    Get.snackbar('success delete ', data['message'],
+    Get.snackbar('success delete'.tr, data['message'],
         backgroundColor: AppColors.primaryColor, snackPosition: SnackPosition.BOTTOM,
         icon: const Icon(Icons.done_outline_rounded));
     Get.to(const SignInScreen());
@@ -48,7 +48,7 @@ if(response.statusCode==200){
   else{
     // if stateNum==200 =>You have active orders, please cancel all orders first
     Get.back();
-    Get.snackbar('error massage ', data['error'],messageText: Text(data['error'],style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
+    Get.snackbar('error massage'.tr, data['error'],messageText: Text(data['error'],style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
         backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM,colorText: Colors.white,
         icon: const Icon(Icons.error,color: Colors.white,));
 
