@@ -21,7 +21,7 @@ class SubCategoriesController extends GetxController {
   List<SubCategoriesModel> _cartList = <SubCategoriesModel>[].obs;
   var cartOrder;
 
-  List get cartList {
+  List<SubCategoriesModel> get cartList {
     var cartList1 =
         subCategoriesModel.where((product) => product.counter! > 0).toList();
     var cartWallet = walletcontroller.productList.isEmpty
@@ -39,11 +39,10 @@ class SubCategoriesController extends GetxController {
 
   double calculateTotal() {
     totalPrice.value = 0.0;
-    for (int i = 0; i < cartList.length; i++) {
-      totalPrice.value += cartList[i].counter! * (cartList[i].price ?? 0);
+    for (int i = 0; i < subCategoriesModel.length; i++) {
+      totalPrice.value += (subCategoriesModel[i].price ?? 0);
     }
     update();
-
     return totalPrice.value;
   }
 
@@ -75,7 +74,7 @@ class SubCategoriesController extends GetxController {
         totalPrice.value += (item.price * item.counter);
       }
     }
-update();
+    update();
     return totalPrice.value;
   }
 
@@ -88,7 +87,7 @@ update();
   void getProducts(shopId) async {
     statusModel.value.updateStatus(GeneralStatus.waiting);
     var url = Uri.parse(
-        'https://news.wasiljo.com/public/api/v1/user/shops/$shopId/subcategory');
+        'https://admin.wasiljo.com/public/api/v1/user/shops/$shopId/subcategory');
     var response = await http.get(
       url,
     );

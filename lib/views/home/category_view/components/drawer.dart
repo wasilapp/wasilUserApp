@@ -14,6 +14,7 @@ import '../../../addresses/all_address/all_address_screen.dart';
 import '../../../../controller/AuthController.dart';
 import '../../../auth/update_profile/update_user.dart';
 import '../../../setting/setting.dart';
+import '../../../wallet_shop/wallet_by_shop_screen.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -160,7 +161,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       ],
                     ),
                     onTap: () {
-                      UserNavigator.of(context).push(const WalletScreen());
+                      UserNavigator.of(context).push(const WalletByShopScreen());
                     },
                   ),
 

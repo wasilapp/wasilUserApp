@@ -9,8 +9,8 @@ class MyOrder {
   int? total;
   int? otp;
   Null? couponDiscount;
-  double? latitude;
-  double? longitude;
+  dynamic? latitude;
+  dynamic? longitude;
   Null? couponId;
   Null? deliveryBoyId;
   int? userId;
@@ -336,11 +336,11 @@ return data;
 class Shop {
 int? id;
 Title? name;
-Null? email;
-Null? mobile;
+String? email;
+String? mobile;
 String? barcode;
-double? latitude;
-double? longitude;
+dynamic? latitude;
+dynamic? longitude;
 String? address;
 Null? imageUrl;
 int? rating;

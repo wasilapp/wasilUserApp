@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:userwasil/utils/ui/user_text.dart';
 import 'package:userwasil/core/constant/colors.dart';
 
@@ -36,7 +37,7 @@ class CommonViews {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
-              minimumSize: const Size(150, 55),
+              minimumSize: Size(MediaQuery.sizeOf(Get.context!).width, 55),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)))),
           child: UserText(

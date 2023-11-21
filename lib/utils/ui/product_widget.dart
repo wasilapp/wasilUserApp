@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:userwasil/core/locale/locale.controller.dart';
 import 'package:userwasil/config/custom_package.dart';
 import 'package:userwasil/views/subcategory_shop/subcategories_controller.dart';
+import 'package:userwasil/views/subcategory_shop/subcategories_model.dart';
 import 'package:userwasil/views/subcategory_shop/subcategories_view.dart';
 
 class ProductWidget extends StatefulWidget {
-  final model;
+  final SubCategoriesModel model;
 
   const ProductWidget({super.key, required this.model});
 
@@ -32,7 +33,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           color: AppColors.backgroundColor,
           child: ListTile(
             leading: Image.network(
-                'https://news.wasiljo.com/${widget.model.imageUrl}'),
+                'https://admin.wasiljo.com/${widget.model.imageUrl}'),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -99,7 +100,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                         InkWell(
                           onTap: () {
                             subCategoriesController.updateCounter(
-                                widget.model.id, widget.model.counter);
+                                widget.model.id!, widget.model.counter!);
                             subCategoriesController.getTotalPriceInCart2();
                             setState(
                               () {
@@ -108,7 +109,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                                       (widget.model.counter! - 1);
                                   log('lll');
                                   subCategoriesController.updateCounter(
-                                      widget.model.id, widget.model.counter);
+                                      widget.model.id!, widget.model.counter!);
                                   subCategoriesController
                                       .getTotalPriceInCart2();
                                   log(subCategoriesController
@@ -119,7 +120,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                                   widget.model.counter =
                                       (widget.model.counter! - 1);
                                   subCategoriesController.updateCounter(
-                                      widget.model.id, widget.model.counter);
+                                      widget.model.id!, widget.model.counter!);
                                   subCategoriesController
                                       .getTotalPriceInCart2();
                                   log(subCategoriesController

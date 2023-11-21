@@ -89,7 +89,7 @@ class _AllOrderState extends State<AllOrder> {
             fontWeight: FontWeight.w400,
           )):IconButton(onPressed: () {
 controller.getDetailOrders(order.id!);
-          Get.to(DetailOrder());
+          Get.to(DetailOrder(id:order.id!));
             }
               ,icon:  Icon(Icons.arrow_forward_ios,color: AppColors.primaryColor,size: 15)),
           // leading: Image.network(order.),

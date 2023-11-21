@@ -13,10 +13,10 @@ class NearbyDriverController extends GetxController {
       Get.find<SubCategoriesController>();
   List<SubCategoriesModel> subcategories = [];
   RxBool isLoaded = false.obs;
-  CameraPosition initialCameraPosition = const CameraPosition(
+  CameraPosition initialCameraPosition = CameraPosition(
     target: LatLng(
-      31.9855981,
-      35.9578289,
+      double.parse(Get.find<AddressController>().lat.value),
+      double.parse(Get.find<AddressController>().long.value),
     ),
     zoom: 14.5,
   );
@@ -41,13 +41,16 @@ class NearbyDriverController extends GetxController {
         .collection('deliveryBoys')
         .get()
         .then((value) {
+      bool haveLocation = false;
+      bool isGasDriver = false;
+      bool isActive = false;
       for (int index = 0; index < value.docs.length; index++) {
-        if (markers.length > 6) {
+        if (markers.length > 5) {
           break;
         }
-        bool haveLocation = value.docs[index].data()['latitude'] != null;
-        bool isGasDriver = value.docs[index].data()['category_id'] == 2;
-        bool isActive = value.docs[index].data()['is_offline'] == 0;
+        haveLocation = value.docs[index].data()['latitude'] != null;
+        isGasDriver = value.docs[index].data()['category_id'] == 2;
+        isActive = value.docs[index].data()['is_offline'] == 0;
         if (haveLocation && isGasDriver && isActive) {
           LatLng latLng = LatLng(
             double.parse(value.docs[index].data()['latitude'].toString()),

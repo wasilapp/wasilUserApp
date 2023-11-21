@@ -122,13 +122,13 @@ class Title {
 class Shop {
   int? id;
   Title? name;
-  Null? email;
-  Null? mobile;
+  String? email;
+  String? mobile;
   String? barcode;
   dynamic? latitude;
   dynamic? longitude;
   String? address;
-  Null? imageUrl;
+  String? imageUrl;
   int? rating;
   int? deliveryRange;
   int? totalRating;

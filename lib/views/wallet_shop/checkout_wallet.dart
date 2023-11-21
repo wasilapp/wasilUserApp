@@ -15,18 +15,21 @@ import 'package:userwasil/config/custom_package.dart';
 import 'package:userwasil/controller/address.dart';
 import 'package:userwasil/utils/ui/product_widget.dart';
 import 'package:userwasil/views/subcategory_shop/subcategories_controller.dart';
-import 'add_order.dart';
-import 'time_order_widget.dart';
+
 import 'package:http/http.dart' as http;
 
-class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+import '../../core/locale/locale.controller.dart';
+import '../checkout_order/add_order.dart';
+import '../checkout_order/time_order_widget.dart';
+
+class CheckoutWalletScreen extends StatefulWidget {
+  const CheckoutWalletScreen({super.key});
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  State<CheckoutWalletScreen> createState() => _CheckoutWalletScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _CheckoutWalletScreenState extends State<CheckoutWalletScreen> {
   String trueDate = '';
   DateTime pickedDate = DateTime.now();
   var cityTFController;
@@ -44,7 +47,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> _changeLocation(latitude, longitude) async {
     final List<Placemark> placeMark =
-        await placemarkFromCoordinates(latitude, longitude);
+    await placemarkFromCoordinates(latitude, longitude);
     setState(() {
       cityTFController = placeMark[0].locality.toString();
       addressTFController = placeMark[0].street.toString();
@@ -80,8 +83,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         .then((zoom) => {_changeLocation(zoom, latLong)});
   }
 
-  SubCategoriesController controller = Get.put(SubCategoriesController());
-  WalletShopController walletcontroller = Get.put(WalletShopController());
+  // SubCategoriesController controller = Get.put(SubCategoriesController());
+  WalletShopController controller = Get.put(WalletShopController());
 // favouriteController controllerCategory = Get.put(favouriteController());
   AddressController controllerAddress = Get.put(AddressController());
   AddOrderController orderController = Get.put(AddOrderController());
@@ -150,7 +153,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -186,19 +189,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             controllerAddress.street.value =
                                                 address.street;
                                             controllerAddress
-                                                    .buildingNumber.value =
-                                                address.buildingNumber!;
+                                                .buildingNumber.value =
+                                            address.buildingNumber!;
                                             controllerAddress
-                                                    .apartmentNum.value =
+                                                .apartmentNum.value =
                                                 address.apartmentNum.toString();
                                             controllerAddress.id.value =
                                                 address.id.toString();
                                           },
                                           value:
-                                              '${address.type == 0 ? 'Home' : address.type == 1 ? 'Work' : 'Other'} ${address.street}',
+                                          '${address.type == 0 ? 'Home' : address.type == 1 ? 'Work' : 'Other'} ${address.street}',
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                   ' ${address.type == 0 ? 'Home' : address.type == 1 ? 'Work' : 'Other'}, ${address.street}',
@@ -207,7 +210,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                           .secondaryColor)),
                                               const Divider(
                                                 color:
-                                                    AppColors.backgroundColor,
+                                                AppColors.backgroundColor,
                                               )
                                             ],
                                           ),
@@ -296,53 +299,53 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         children: [
                           controller.cartList.length == 1
                               ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Select Payment method'.tr,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black)),
-                                    const SizedBox(width: 20),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: AppColors.borderColor,
-                                              width: 2)),
-                                      child: DropdownButton<String>(
-                                        underline: Container(),
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black),
-                                        icon: const Icon(Icons.arrow_drop_down,
-                                            color: AppColors.primaryColor,
-                                            size: 30),
-                                        dropdownColor:
-                                            AppColors.backgroundColor,
-                                        hint: Text('Select Payment'.tr),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20),
-                                        value: selectedPayment,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            selectedPayment = newValue!;
-                                          });
-                                        },
-                                        items: ['Cash'.tr, 'Wallet'.tr]
-                                            .map((String payment) {
-                                          return DropdownMenuItem<String>(
-                                            value: payment,
-                                            child: Text(payment.tr),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Select Payment method'.tr,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black)),
+                              const SizedBox(width: 20),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: AppColors.borderColor,
+                                        width: 2)),
+                                child: DropdownButton<String>(
+                                  underline: Container(),
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black),
+                                  icon: const Icon(Icons.arrow_drop_down,
+                                      color: AppColors.primaryColor,
+                                      size: 30),
+                                  dropdownColor:
+                                  AppColors.backgroundColor,
+                                  hint: Text('Select Payment'.tr),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  value: selectedPayment,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      selectedPayment = newValue!;
+                                    });
+                                  },
+                                  items: ['Cash'.tr, 'Wallet'.tr]
+                                      .map((String payment) {
+                                    return DropdownMenuItem<String>(
+                                      value: payment,
+                                      child: Text(payment.tr),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          )
                               : const Text(''),
                           const SizedBox(
                             height: 10,
@@ -374,8 +377,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     print(
                                         pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                     String formattedDate =
-                                        DateFormat('yyyy-MM-dd')
-                                            .format(pickedDate);
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(pickedDate);
                                     if (pickedDate.isBefore(DateTime.now())) {
                                       print('i');
                                       trueDate = 'date befor todys';
@@ -422,29 +425,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: AppColors.borderColor,
-                        width: 2,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        border:
+                        Border.all(color: AppColors.borderColor, width: 2)),
                     width: double.infinity,
                     child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-
                         print( controller.cartList.length.toString());
                         return ProductWidget(
                           model: controller.cartList[index],
                         );
                       },
                       itemCount: controller.cartList.length,
-
-                      //   return ProductWidget(
-                      //     model: subCategoriesModel[index],
-                      //   );
-                      // },
-                      // itemCount: subCategoriesModel.length,
                       shrinkWrap: true,
                     ),
                   ),
@@ -456,7 +449,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         border:
-                            Border.all(color: AppColors.borderColor, width: 2)),
+                        Border.all(color: AppColors.borderColor, width: 2)),
                     width: double.infinity,
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -479,7 +472,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 },
                                 child: Text(
                                     controller
-                                        .calculateTotal()
+                                        .cartList[0].price
                                         .toStringAsFixed(2),
                                     style: (const TextStyle(
                                       color: Colors.black,
@@ -533,9 +526,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                               Text(
                                 (schedulerFees +
-                                        deliveryFee +
-                                        subCategoriesController
-                                            .calculateTotal())
+                                    deliveryFee +
+                                    controller
+                                        .cartList[0].price)
                                     .toStringAsFixed(2),
                                 style: (const TextStyle(
                                     color: Colors.black,
@@ -568,78 +561,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () {
                           controller.getProducts(controller.shopId);
-                          walletcontroller.getProducts(controller.shopId);
+                          controller.getProducts(controller.shopId);
 
                           UserNavigator.of(context).maybePop();
                         },
                         child: Text("Add Item".tr,
                             style:
-                                const TextStyle(color: AppColors.primaryColor)),
+                            const TextStyle(color: AppColors.primaryColor)),
                       ),
                       ElevatedButton(
                         style: const ButtonStyle(
                           minimumSize: MaterialStatePropertyAll(Size(170, 50)),
                           backgroundColor:
-                              MaterialStatePropertyAll(AppColors.primaryColor),
+                          MaterialStatePropertyAll(AppColors.primaryColor),
                           shape: MaterialStatePropertyAll(
                               RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(10)))),
+                                  BorderRadius.all(Radius.circular(10)))),
                         ),
                         onPressed: () async {
                           String? token =
-                              await Get.find<AuthController>().getApiToken();
+                          await Get.find<AuthController>().getApiToken();
                           //TODO
                           print(controller.cartList
                               .map((e) => e.tooJson())
                               .toList());
-                          if (orderType == '4') {
-                            DateTime dateTime = DateTime.now();
-                            String currentTime =
-                                '${dateTime.day}-${dateTime.month}-${dateTime.year}';
-                            Map<String, dynamic> driver = {
-                              "category_id": 2,
-                              "payment_type": 2,
-                              "order_type": "urgent",
-                              "order_date": currentTime,
-                              "order_time_from": "10:30am",
-                              "order_time_to": "11:30am",
-                              "expedited_fees": expeditedFees,
-                              "order": 1,
-                              "delivery_fee": deliveryFee,
-                              "total": controller.calculateTotal(),
-                              "coupon_discount": null,
-                              "coupon_id": null,
-                              "address_id": 1,
-                              "type": 1,
-                              "deliveryIds": Get.find<NearbyDriverController>()
-                                  .driverId
-                                  .join(','),
-                              "count": controller.cartList.length,
-                              "night_order": true,
-                              "commesion": 0.1,
-                              "carts": controller.cartList
-                                  .map((e) => e.tooJson())
-                                  .toList()
-                            };
-                            http.Response response = await http.post(
-                              Uri.parse(
-                                  'https://admin.wasiljo.com/public/api/v1/user/orders/driver'),
-                              body: json.encode(driver),
-                              headers: {
-                                'Authorization': 'Bearer $token',
-                                'Content-Type': 'application/json'
-                              },
-                            );
-                            Get.log('1234 ${response.statusCode.toString()}');
-                            Get.log('1234 ${response.body.toString()}');
-
-                            if (response.statusCode == 200) {
-                              Get.to(() => const SuccesPage());
-                              orderType = '0';
-                            }
-                            return;
-                          }
                           if (orderType == '2') {
                             DateTime dateTime = DateTime.now();
                             String currentTime =
@@ -702,18 +648,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 backgroundColor: Colors.red,
                                 snackPosition: SnackPosition.BOTTOM,
                                 icon: const Icon(Icons.error_outline));
-                          } else if (controller.shop!.open == 0) {
-                            Get.snackbar('  order not success ',
-                                'shop selected closed'.tr,
-                                backgroundColor: Colors.red,
-                                snackPosition: SnackPosition.BOTTOM,
-                                icon: const Icon(Icons.error_outline));
-                          } else {
-                            orderController.createOrder(
+                          }  else {
+                            orderController.createCouponBookOrder(
                                 categoryId: 1,
                                 paymentType:
-                                    selectedPayment == 'Cash'.tr ? 2 : 1,
-                                walletId: 1,
+                                selectedPayment == 'Cash'.tr ? 2 : 1,
+                                walletId: controller.cartList[0].id,
                                 orderDate: dateInput.toString(),
                                 orderTimeFrom: HourSelectionList.startHour,
                                 orderTimeTo: HourSelectionList.endHour,
@@ -724,7 +664,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 total: controller.calculateTotal(),
                                 couponId: 0,
                                 addressId:
-                                    int.parse(controllerAddress.id.value),
+                                int.parse(controllerAddress.id.value),
                                 type: 1,
                                 shopId: controller.shopId,
                                 count: controller.cartList.length,
@@ -752,6 +692,158 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           );
         }),
       )),
+    );
+  }
+}
+
+
+
+
+class ProductWidget extends StatefulWidget {
+  final model;
+
+  const ProductWidget({super.key, required this.model});
+
+  @override
+  State<ProductWidget> createState() => _ProductWidgetState();
+}
+
+class _ProductWidgetState extends State<ProductWidget> {
+  @override
+  Widget build(BuildContext context) {
+    LocaleController localecontroller = Get.put(LocaleController());
+    SubCategoriesController controller = Get.put(SubCategoriesController());
+
+    final SubCategoriesController subCategoriesController = Get.find();
+
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          color: AppColors.backgroundColor,
+          child: ListTile(
+            leading: Image.network(
+                'https://admin.wasiljo.com/${widget.model.imageUrl}'),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          localecontroller.language!.languageCode == 'en'
+                              ? widget.model.title!.en as String
+                              : widget.model.title!.ar as String,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          )),
+                      Text(
+                          localecontroller.language!.languageCode == 'en'
+                              ? widget.model.description!.en as String
+                              : widget.model.description!.ar as String,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black)),
+                      Row(
+                        children: [
+                          Text(
+                              widget.model.counter == 0
+                                  ? '${widget.model.price}JD'.toString()
+                                  : '${(widget.model.price! * widget.model.counter!).toStringAsFixed(3)}JD',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              )),
+                        ],
+                      ),
+                    ]),
+                // Material(
+                //   elevation: 5,
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //         color: AppColors.backgroundColor,
+                //         borderRadius: BorderRadius.circular(15)),
+                //     height: 30,
+                //     child: Row(
+                //       children: [
+                //         InkWell(
+                //           onTap: () {
+                //             setState(() {
+                //               widget.model.counter =
+                //               (widget.model.counter! + 1);
+                //               subCategoriesController.getTotalPriceInCart2();
+                //             });
+                //           },
+                //           child: const Icon(Icons.add,
+                //               color: AppColors.primaryColor),
+                //         ),
+                //         const SizedBox(
+                //           width: 9,
+                //         ),
+                //         Text('${widget.model.counter}'),
+                //         const SizedBox(
+                //           width: 9,
+                //         ),
+                //         InkWell(
+                //           onTap: () {
+                //             subCategoriesController.updateCounter(
+                //                 widget.model.id, widget.model.counter);
+                //             subCategoriesController.getTotalPriceInCart2();
+                //             setState(
+                //                   () {
+                //                 if (widget.model.counter! - 1 > 0) {
+                //                   widget.model.counter =
+                //                   (widget.model.counter! - 1);
+                //                   log('lll');
+                //                   subCategoriesController.updateCounter(
+                //                       widget.model.id, widget.model.counter);
+                //                   subCategoriesController
+                //                       .getTotalPriceInCart2();
+                //                   log(subCategoriesController
+                //                       .getTotalPriceInCart2()
+                //                       .toString());
+                //                 } else {
+                //                   log('lll');
+                //                   widget.model.counter =
+                //                   (widget.model.counter! - 1);
+                //                   subCategoriesController.updateCounter(
+                //                       widget.model.id, widget.model.counter);
+                //                   subCategoriesController
+                //                       .getTotalPriceInCart2();
+                //                   log(subCategoriesController
+                //                       .getTotalPriceInCart2()
+                //                       .toString());
+                //                   if (controller.cartList.isEmpty) {
+                //                     Get.to(
+                //                             () => const SubCategoryByShopScreen());
+                //                   }
+                //                 }
+                //               },
+                //             );
+                //           },
+                //           child: const Icon(Icons.remove,
+                //               color: AppColors.primaryColor),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        ),
+        const Divider(
+          color: AppColors.borderColor,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }

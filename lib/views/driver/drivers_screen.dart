@@ -2,8 +2,9 @@ import 'package:get/get.dart';
 import 'package:userwasil/views/checkout_order/checkout_screen.dart';
 import 'package:userwasil/views/driver/driver_controller.dart';
 import 'package:userwasil/config/custom_package.dart';
-import 'package:userwasil/views/nearset_order_main_subcategory/ss.dart';
+import 'package:userwasil/views/nearby_driver/nearby_driver_controller.dart';
 import 'package:userwasil/views/nearby_driver/nearby_driver_screen.dart';
+import 'package:userwasil/views/nearset_order_main_subcategory/driver_store_details.dart';
 import 'package:userwasil/views/subcategory_shop/subcategories_controller.dart';
 import 'driver_model.dart';
 
@@ -17,9 +18,26 @@ class DriversScreen extends GetView<DriverController> {
       length: 2,
       child: Scaffold(
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: InkWell(
             onTap: () {
+              bool data = Get.find<NearbyDriverController>()
+                  .subcategories
+                  .any((element) => element.counter! > 0);
+              if (!data) {
+                Get.snackbar(
+                  'warning'.tr,
+                  'please_add_item'.tr,
+                  snackPosition: SnackPosition.TOP,
+                  colorText: Colors.white,
+                  backgroundColor: Colors.red,
+                  icon: const Icon(
+                    Icons.warning,
+                    color: Colors.white,
+                  ),
+                );
+                return;
+              }
               orderType = '2';
               Get.to(() => const CheckoutScreen());
             },
@@ -105,38 +123,42 @@ class ChooseDriver extends GetView<DriverController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (controller.isWaiting) {
-        return ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Shimmer.fromColors(
+    return Obx(
+      () {
+        if (controller.isWaiting) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: Shimmer.fromColors(
                   baseColor: Colors.grey,
                   highlightColor: Colors.grey.shade300,
                   child: Container(
                     height: 160,
                     width: 100.w,
                     color: Colors.grey,
-                  )),
-            );
-          },
-          itemCount: 10,
+                  ),
+                ),
+              );
+            },
+            itemCount: 10,
+          );
+        }
+        if (controller.isError) {
+          return Center(
+            child: Text(controller.statusModel.value.errorMsg!.value),
+          );
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) =>
+              buildDriver(controller.driverList[index]),
+          itemCount: controller.driverList.length,
+          shrinkWrap: true,
         );
-      }
-      if (controller.isError) {
-        return Center(
-          child: Text(controller.statusModel.value.errorMsg!.value),
-        );
-      }
-      return ListView.builder(
-        itemBuilder: (context, index) =>
-            buildDriver(controller.driverList[index]),
-        itemCount: controller.driverList.length,
-        shrinkWrap: true,
-      );
-    });
+      },
+    );
   }
 
   buildDriver(DeliveryBoy driver) {
@@ -146,7 +168,7 @@ class ChooseDriver extends GetView<DriverController> {
           margin: const EdgeInsets.all(10),
           child: ListTile(
             leading: Image.network(
-              'https://news.wasiljo.com/${driver.avatarUrl}',
+              'https://admin.wasiljo.com/${driver.avatarUrl}',
               width: 70,
               height: 80,
             ),
@@ -154,16 +176,13 @@ class ChooseDriver extends GetView<DriverController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(driver.name!.ar.toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      )),
-                  // Text(driver.agencyName!.en.toString(),
-                  //     style: const TextStyle(
-                  //       fontSize: 16,
-                  //       fontWeight: FontWeight.w400,
-                  //     )),
+                  Text(
+                    driver.name!.en.toString(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   Row(
                     children: [
                       const Icon(Icons.star,
@@ -176,7 +195,7 @@ class ChooseDriver extends GetView<DriverController> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Text("(${driver.totalRating.toString()}"+ "Ratings".tr+")",
+                      Text("(${driver.totalRating.toString()}${"Ratings".tr})",
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -185,7 +204,14 @@ class ChooseDriver extends GetView<DriverController> {
                   )
                 ]),
             onTap: () {
-              Get.to(DDD());
+              int index = Get.find<NearbyDriverController>().driverId.length;
+              if (index > 0) {
+                Get.find<NearbyDriverController>().driverId.clear();
+              }
+              Get.find<NearbyDriverController>()
+                  .driverId
+                  .add(driver.id!.toString());
+              Get.to(() => const DriverStoreDetails());
             },
           ),
         ),

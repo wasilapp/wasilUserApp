@@ -7,7 +7,7 @@
 //
 // class AddressController extends GetxController{
 //   Future <List<AddressesModel>> getAddress() async {
-//     const String apiUrl = 'https://news.wasiljo.com/public/api/v1/user/addresses';
+//     const String apiUrl = 'https://admin.wasiljo.com/public/api/v1/user/addresses';
 //     SharedPreferences prefs = await SharedPreferences.getInstance();
 //     var token = prefs.getString('token');
 //     List<AddressesModel> addressesList = [];

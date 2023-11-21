@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:userwasil/utils/ui/product_widget.dart';
 import 'package:userwasil/views/checkout_order/checkout_screen.dart';
-
+import 'package:userwasil/views/wallet_shop/wallet_by_shop_screen.dart';
 import '../../../config/custom_package.dart';
 import '../wallet_shop/wallet_by_shop_controller.dart';
 import 'subcategories_controller.dart';
@@ -22,72 +22,156 @@ class SubCategoryByShopScreen extends StatelessWidget {
         controller.getProducts(controller.shopId);
         return;
       },
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            iconTheme: const IconThemeData(color: Colors.black), elevation: 0,
-            // title: Text("Update Profile".tr,style: TextStyle(color:Color(0xff373636),fontSize: 18,
-            //   fontWeight: FontWeight.w400,)),
-            backgroundColor: AppColors.backgroundColor,
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Obx(
-                () {
-                  if (controller.isWaiting) {
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
-                      child: Shimmer.fromColors(
-                          baseColor: AppColors.borderColor,
-                          highlightColor: Colors.grey.shade300,
-                          child: Container(
-                            height: 5.h,
-                            width: 5.w,
-                            color: Colors.grey,
-                          )),
-                    );
-                  }
-                  if (controller.isError) {
-                    return Center(
-                      child: Text(controller.statusModel.value.errorMsg!.value),
-                    );
-                  }
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      return ProductWidget(model: subCategoriesModel[index]);
-                    },
-                    itemCount: subCategoriesModel.length,
-                    shrinkWrap: true,
-                  );
-                },
+      child: DefaultTabController(
+          length: 2,
+        child: SafeArea(
+          child: Scaffold(
+            appBar:  AppBar(            iconTheme: IconThemeData(color: Colors.black),elevation: 0,
+              // title: Text("Update Profile".tr,style: TextStyle(color:Color(0xff373636),fontSize: 18,
+              //   fontWeight: FontWeight.w400,)),
+              backgroundColor: AppColors.backgroundColor,
+              bottom: TabBar(
+                labelColor: AppColors.primaryColor,
+                indicatorColor: AppColors.primaryColor,
+                tabs: <Widget>[
+                  Tab(
+                    icon: Text('items'.tr),
+                  ),
+                  Tab(
+                    icon: Text('coupon book'.tr),
+                  ),
+                ],
               ),
-              Obx(() {
-                return Column(
+            ),
+
+
+            body:
+
+
+            TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ListView.builder(
-                      itemBuilder: (context, index) {
-                        return ProductWidget(
-                            model: controllerWallet.productList[index]);
+                    Obx(
+                          () {
+                        if (controller.isWaiting) {
+                          Container(
+                            margin:
+                            EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                            child: Shimmer.fromColors(
+                                baseColor: AppColors.borderColor,
+                                highlightColor: Colors.grey.shade300,
+                                child: Container(
+                                  height: 5.h,
+                                  width: 5.w,
+                                  color: Colors.grey,
+                                )),
+                          );
+                        }
+                        if (controller.isError) {
+                          return Center(
+                            child: Text(controller.statusModel.value.errorMsg!.value),
+                          );
+                        }
+                        return ListView.builder(
+                          itemBuilder: (context, index) {
+                            return ProductWidget(model: subCategoriesModel[index]);
+                          },
+                          itemCount: subCategoriesModel.length,
+                          shrinkWrap: true,
+                        );
                       },
-                      itemCount: controllerWallet.productList.length,
-                      shrinkWrap: true,
                     ),
+                    // Obx(() {
+                    //   return Column(
+                    //     children: [
+                    //       ListView.builder(
+                    //         itemBuilder: (context, index) {
+                    //           return ProductWidget(
+                    //               model: controllerWallet.productList[index]);
+                    //         },
+                    //         itemCount: controllerWallet.productList.length,
+                    //         shrinkWrap: true,
+                    //       ),
+                    //     ],
+                    //   );
+                    // }),
+                    const Spacer(),
+                    CommonViews().createButton(
+                      title: 'checkout'.tr,
+                      onPressed: () {
+                        Get.to(() => const CheckoutScreen());
+                      },
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    )
                   ],
-                );
-              }),
-              const Spacer(),
-              CommonViews().createButton(
-                title: 'checkout'.tr,
-                onPressed: () {
-                  Get.to(() => const CheckoutScreen());
-                },
-              ),
-              SizedBox(
-                height: 1.h,
-              )
-            ],
+                ),
+                WalletByShopScreen()
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.stretch,
+                //   children: [
+                //     // Obx(
+                //     //       () {
+                //     //     if (controller.isWaiting) {
+                //     //       Container(
+                //     //         margin:
+                //     //         EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                //     //         child: Shimmer.fromColors(
+                //     //             baseColor: AppColors.borderColor,
+                //     //             highlightColor: Colors.grey.shade300,
+                //     //             child: Container(
+                //     //               height: 5.h,
+                //     //               width: 5.w,
+                //     //               color: Colors.grey,
+                //     //             )),
+                //     //       );
+                //     //     }
+                //     //     if (controller.isError) {
+                //     //       return Center(
+                //     //         child: Text(controller.statusModel.value.errorMsg!.value),
+                //     //       );
+                //     //     }
+                //     //     return ListView.builder(
+                //     //       itemBuilder: (context, index) {
+                //     //         return ProductWidget(model: subCategoriesModel[index]);
+                //     //       },
+                //     //       itemCount: subCategoriesModel.length,
+                //     //       shrinkWrap: true,
+                //     //     );
+                //     //   },
+                //     // ),
+                //     Obx(() {
+                //       return Column(
+                //         children: [
+                //           ListView.builder(
+                //             itemBuilder: (context, index) {
+                //               return ProductWidget(
+                //                   model: controllerWallet.productList[index]);
+                //             },
+                //             itemCount: controllerWallet.productList.length,
+                //             shrinkWrap: true,
+                //           ),
+                //         ],
+                //       );
+                //     }),
+                //     const Spacer(),
+                //     CommonViews().createButton(
+                //       title: 'checkout'.tr,
+                //       onPressed: () {
+                //         Get.to(() => const CheckoutWalletScreen());
+                //       },
+                //     ),
+                //     SizedBox(
+                //       height: 1.h,
+                //     )
+                //   ],
+                // ),
+              ],
+            )
           ),
         ),
       ),

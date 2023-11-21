@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentPage = 0;
   Timer? timerAnimation;
   getBanner()async{
-    var response =await http.get(Uri.parse('https://news.wasiljo.com/public/api/v1/user/banners'));
+    var response =await http.get(Uri.parse('https://admin.wasiljo.com/public/api/v1/user/banners'));
 
 
 
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Swiper(
               itemBuilder: (BuildContext context, int index) {
                 return Image.network(
-                  'https://news.wasiljo.com/${banners[index]}',
+                  'https://admin.wasiljo.com/${banners[index]}',
                   fit: BoxFit.fill,
                 );
               },
@@ -260,7 +260,7 @@ class AdBannerController {
   static Future<MyResponse<List<AdBanner>>> getAllBanner() async {
     //Getting User Api Token
 
-    String url ='https://news.wasiljo.com/public/api/v1/user-boy/banners';
+    String url ='https://admin.wasiljo.com/public/api/v1/user-boy/banners';
     Map<String, String> headers =
     ApiUtil.getHeader(requestType: RequestType.Get, );
 

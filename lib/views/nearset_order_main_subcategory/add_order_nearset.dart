@@ -1,38 +1,38 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:userwasil/controller/AuthController_new.dart';
 import '../../config/custom_package.dart';
 import '../../utils/ui/progress_hud.dart';
 import '../orders/order_model.dart';
 
-class AddOrderController extends GetxController{
-  AuthController controller=Get.put(AuthController());
+class AddOrderController extends GetxController {
+  AuthController controller = Get.put(AuthController());
   Future<void> createOrder({
-    int ?categoryId,
-    int ?paymentType,
-    int ?walletId,
+    int? categoryId,
+    int? paymentType,
+    int? walletId,
     String? orderType,
-    String ?orderDate,
-    String ?orderTimeFrom,
-    String ?orderTimeTo,
-    int ?order,
+    String? orderDate,
+    String? orderTimeFrom,
+    String? orderTimeTo,
+    int? order,
     double? deliveryFee,
     double? expeditedFees,
-    double ?total,
-    String ?couponDiscount,//todo what type
-    int ?couponId,
-    int ?addressId,
+    double? total,
+    String? couponDiscount, //todo what type
+    int? couponId,
+    int? addressId,
     double? commesion,
-    bool ?nightOrder,
-    int ?count,
-    String ?deliveryIds,
-    int ?type,
+    bool? nightOrder,
+    int? count,
+    String? deliveryIds,
+    int? type,
     var cart,
   }) async {
     ProgressHud.shared.startLoading(Get.context);
-    var addOrder =   Uri.parse('https://news.wasiljo.com/public/api/v1/user/orders/driver'); // Replace with your actual URL
+    var addOrder =   Uri.parse('https://admin.wasiljo.com/public/api/v1/user/orders/driver'); // Replace with your actual URL
     var token=await controller.getApiToken();
     Map<String, dynamic> orderData = {
       "category_id": categoryId,
@@ -45,7 +45,7 @@ class AddOrderController extends GetxController{
       "expedited_fees": expeditedFees,
       "order": order,
       "delivery_fee": deliveryFee,
-      "total":total,
+      "total": total,
       // "coupon_discount": couponDiscount,
       // "coupon_id": couponId,
       "address_id": addressId,
@@ -54,8 +54,7 @@ class AddOrderController extends GetxController{
       "count": count,
       "night_order": true,
       "commesion": commesion,
-      "carts":
-      [
+      "carts": [
         {
           "sub_categories_id": 1,
           "quantity": 2,
@@ -70,7 +69,7 @@ class AddOrderController extends GetxController{
         },
       ],
     };
-    var body=json.encode(orderData);
+    var body = json.encode(orderData);
     try {
       ProgressHud.shared.stopLoading();
       final response = await http.post(
@@ -86,7 +85,8 @@ class AddOrderController extends GetxController{
         log("Order created successfully.");
         log(response.body);
         Get.snackbar(' added order success ', 'send order by shop',
-            backgroundColor: AppColors.primaryColor, snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColors.primaryColor,
+            snackPosition: SnackPosition.BOTTOM,
             icon: const Icon(Icons.done_outline_rounded));
         Get.to(const AllOrder());
       } else {
@@ -96,6 +96,4 @@ class AddOrderController extends GetxController{
       log("An error occurred: $e");
     }
   }
-
-
 }

@@ -5,7 +5,6 @@ import 'package:userwasil/views/shops/shops_controller.dart';
 
 import 'package:userwasil/utils/ui/shimmer_widget.dart';
 import 'package:userwasil/views/shops/shop_model.dart';
-import 'package:userwasil/views/wallet_shop/wallet_by_shop_screen.dart';
 
 import '../../config/custom_package.dart';
 import '../../controller/address.dart';
@@ -13,24 +12,24 @@ import '../../core/locale/locale.controller.dart';
 import '../home/category_view/components/address_widget.dart';
 import '../subcategory_shop/subcategories_view.dart';
 
-class ShopsScreen extends StatefulWidget {
+class ShopsWalletScreen extends StatefulWidget {
   final lat;
   final long;
   final id;
 
-  const ShopsScreen(
+  const ShopsWalletScreen(
       {super.key, required this.lat, required this.long, required this.id});
 
   @override
-  State<ShopsScreen> createState() => _ShopsScreenState();
+  State<ShopsWalletScreen> createState() => _ShopsWalletScreenState();
 }
 
-class _ShopsScreenState extends State<ShopsScreen> {
+class _ShopsWalletScreenState extends State<ShopsWalletScreen> {
   ShopsController controller = Get.put(ShopsController());
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  GlobalKey<RefreshIndicatorState>();
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                 itemBuilder: (context, index) {
                   return Container(
                     margin:
-                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                    EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
                     child: Shimmer.fromColors(
                         baseColor: AppColors.borderColor,
                         highlightColor: Colors.grey.shade300,
@@ -109,6 +108,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
     );
   }
 
+
   AddressController addressController = Get.put(AddressController());
   Widget buildShop(ShopsModel shop) {
     LocaleController controller = Get.put(LocaleController());
@@ -136,15 +136,16 @@ class _ShopsScreenState extends State<ShopsScreen> {
                 ),
                 shop.open == 0
                     ? Center(
-                        child: Text("closed".tr,
-                            style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                      )
+                  child: Text("closed".tr,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold)),
+                )
                     : const Text('')
               ]),
             ),
+
             title: Text(
                 controller.language!.languageCode == 'en'
                     ? shop.shopNameEn!.toString()
@@ -193,10 +194,10 @@ class _ShopsScreenState extends State<ShopsScreen> {
                     ]),
                 shop.open == 0
                     ? Text(
-                        "closed".tr,
-                        style: const TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold),
-                      )
+                  "closed".tr,
+                  style: const TextStyle(
+                      color: Colors.red, fontWeight: FontWeight.bold),
+                )
                     : const Text("")
               ],
             ),
@@ -205,7 +206,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
               print(shop.open);
               print(shop.avatarUrl);
               Get.to(
-                () => const SubCategoryByShopScreen(),
+                    () => const SubCategoryByShopScreen(),
                 arguments: {
                   'shopId': shop.id,
                   'logo': shop.avatarUrl,
@@ -240,17 +241,17 @@ class _ShopsScreenState extends State<ShopsScreen> {
           Row(
             children: [
               Obx(() => addressController.selectedAddress.value.isEmpty &&
-                      addressController.listDefaultAddress.isEmpty
+                  addressController.listDefaultAddress.isEmpty
                   ? Text(' select Address'.tr)
                   : addressController.selectedAddress.value.isEmpty
-                      ? Text(
-                          ' ${addressController.listDefaultAddress[0].type == 0 ? 'Home'.tr : addressController.listDefaultAddress[0].type == 1 ? 'Work'.tr : 'Other'.tr}, ${addressController.listDefaultAddress[0].street}',
-                          style:
-                              const TextStyle(color: AppColors.secondaryColor))
+                  ? Text(
+                  ' ${addressController.listDefaultAddress[0].type == 0 ? 'Home'.tr : addressController.listDefaultAddress[0].type == 1 ? 'Work'.tr : 'Other'.tr}, ${addressController.listDefaultAddress[0].street}',
+                  style:
+                  const TextStyle(color: AppColors.secondaryColor))
 
-                      // Display selected address in the body
+              // Display selected address in the body
 
-                      : Text(addressController.selectedAddress.value)),
+                  : Text(addressController.selectedAddress.value)),
               RefreshIndicator(
                 onRefresh: () async {
                   print('object');
@@ -275,7 +276,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                       print('object');
                       addressController.getMyAddresses();
                       final items =
-                          addressController.listAddress.map((address) {
+                      addressController.listAddress.map((address) {
                         return PopupMenuItem<String>(
                           onTap: () {
                             print(address.latitude.toString());
@@ -287,7 +288,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                                 address.longitude.toString();
                             addressController.street.value = address.street;
                             addressController.buildingNumber.value =
-                                address.buildingNumber!;
+                            address.buildingNumber!;
                             addressController.apartmentNum.value =
                                 address.apartmentNum.toString();
                             addressController.id.value = address.id.toString();
@@ -295,7 +296,7 @@ class _ShopsScreenState extends State<ShopsScreen> {
                             controller.fetchShops();
                           },
                           value:
-                              '${address.type == 0 ? 'Home' : address.type == 1 ? 'Work' : 'Other'} ${address.street}',
+                          '${address.type == 0 ? 'Home' : address.type == 1 ? 'Work' : 'Other'} ${address.street}',
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

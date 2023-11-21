@@ -219,7 +219,7 @@ class Carts {
 class Shop {
   int? id;
   Title? name;
-  Null? email;
+  String? email;
   Null? mobile;
   String? barcode;
   dynamic? latitude;

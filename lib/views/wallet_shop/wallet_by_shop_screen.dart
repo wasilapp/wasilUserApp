@@ -1,9 +1,12 @@
+import 'dart:developer';
+import 'package:userwasil/views/subcategory_shop/subcategories_controller.dart';
 import 'package:get/get.dart';
-import 'package:userwasil/utils/ui/product_widget.dart';
 import 'package:userwasil/views/checkout_order/checkout_screen.dart';
 import 'package:userwasil/views/wallet_shop/wallet_by_shop_controller.dart';
 
 import '../../../config/custom_package.dart';
+import '../../core/locale/locale.controller.dart';
+import 'checkout_wallet.dart';
 
 
 class WalletByShopScreen extends StatelessWidget {
@@ -53,7 +56,7 @@ class WalletByShopScreen extends StatelessWidget {
             return Column(children: [
               ListView.builder(
                 itemBuilder: (context, index) {
-                  return ProductWidget(model: controller.productList[index]);
+                  return ProductWalletWidget(model: controller.productList[index]);
                 },
                 itemCount: controller.productList.length,
                 shrinkWrap: true,
@@ -95,7 +98,7 @@ class WalletByShopScreen extends StatelessWidget {
                           print('controller.gett');
                          // controller.gett();
 
-                          UserNavigator.of(context).push(CheckoutScreen());
+                          UserNavigator.of(context).push(CheckoutWalletScreen());
                         }
                       },
                       child: Row(
@@ -123,6 +126,178 @@ class WalletByShopScreen extends StatelessWidget {
           }),
         ),
       ),
+    );
+  }
+}
+class ProductWalletWidget extends StatefulWidget {
+  final model;
+
+  const ProductWalletWidget({super.key, required this.model});
+
+  @override
+  State<ProductWalletWidget> createState() => _ProductWalletWidgetState();
+}
+
+class _ProductWalletWidgetState extends State<ProductWalletWidget> {
+  @override
+  Widget build(BuildContext context) {
+    LocaleController localecontroller = Get.put(LocaleController());
+    WalletShopController controller = Get.put(WalletShopController());
+
+
+
+    return Column(
+      children: [
+        const SizedBox(
+          height: 50,
+        ),
+        Container(
+          color: AppColors.backgroundColor,
+          child: ListTile(
+            leading: Image.network(
+                'https://admin.wasiljo.com/${widget.model.imageUrl}'),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          localecontroller.language!.languageCode == 'en'
+                              ? widget.model.title!.en as String
+                              : widget.model.title!.ar as String,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          )),
+                      Text(
+                          localecontroller.language!.languageCode == 'en'
+                              ? widget.model.description!.en as String
+                              : widget.model.description!.ar as String,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black)),
+                      Row(
+                        children: [
+                          Text(
+                              widget.model.counter == 0
+                                  ? '${widget.model.price}JD'.toString()
+                                  : '${(widget.model.price! * widget.model.counter!).toStringAsFixed(3)}JD',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                              )),
+                        ],
+                      ),
+                    ]),
+                // Material(
+                //   elevation: 5,
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //         color: AppColors.backgroundColor,
+                //         borderRadius: BorderRadius.circular(15)),
+                //     height: 30,
+                //     child: Row(
+                //       children: [
+                //         InkWell(
+                //           onTap: () {
+                //             setState(() {
+                //               widget.model.counter =
+                //               (widget.model.counter! + 1);
+                //               subCategoriesController.getTotalPriceInCart2();
+                //             });
+                //           },
+                //           child: const Icon(Icons.add,
+                //               color: AppColors.primaryColor),
+                //         ),
+                //         const SizedBox(
+                //           width: 9,
+                //         ),
+                //         Text('${widget.model.counter}'),
+                //         const SizedBox(
+                //           width: 9,
+                //         ),
+                //         InkWell(
+                //           onTap: () {
+                //             subCategoriesController.updateCounter(
+                //                 widget.model.id, widget.model.counter);
+                //             subCategoriesController.getTotalPriceInCart2();
+                //             setState(
+                //                   () {
+                //                 if (widget.model.counter! - 1 > 0) {
+                //                   widget.model.counter =
+                //                   (widget.model.counter! - 1);
+                //                   log('lll');
+                //                   subCategoriesController.updateCounter(
+                //                       widget.model.id, widget.model.counter);
+                //                   subCategoriesController
+                //                       .getTotalPriceInCart2();
+                //                   log(subCategoriesController
+                //                       .getTotalPriceInCart2()
+                //                       .toString());
+                //                 } else {
+                //                   log('lll');
+                //                   widget.model.counter =
+                //                   (widget.model.counter! - 1);
+                //                   subCategoriesController.updateCounter(
+                //                       widget.model.id, widget.model.counter);
+                //                   subCategoriesController
+                //                       .getTotalPriceInCart2();
+                //                   log(subCategoriesController
+                //                       .getTotalPriceInCart2()
+                //                       .toString());
+                //                   if (controller.cartList.isEmpty) {
+                //                     Get.to(
+                //                             () => const SubCategoryByShopScreen());
+                //                   }
+                //                 }
+                //               },
+                //             );
+                //           },
+                //           child: const Icon(Icons.remove,
+                //               color: AppColors.primaryColor),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
+
+                    onPressed: () {
+                      // subCategoriesModel.add(widget.model,);
+                      orderType='3';
+
+                      controller.getCart(widget.model);
+                      // if (controller.cartList.contains(widget.model.id)) {
+                      // setState(() {
+                      //   controller.cartList.removeAt(widget.model);
+                      // });
+                      // log('remove');
+                      // } else {
+                      // setState(() {
+                      //   controller.cartList.add(widget.model);
+                      // });
+                      // log('add');
+                      // log(controller.cartList.length.toString());
+                      //
+                      // }
+
+                    }, child:
+                Obx(() => Text(controller.cartList.where((item) => item.id == widget.model.id).isEmpty?'Add':'Added'))
+                )     ],
+            ),
+          ),
+        ),
+        const Divider(
+          color: AppColors.borderColor,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }

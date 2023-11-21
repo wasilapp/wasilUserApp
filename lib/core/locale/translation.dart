@@ -5,6 +5,7 @@ class MyTranslation implements Translations {
   Map<String, Map<String, String>> get keys => {
         "ar": {
           "nearby": "قريب",
+          "items": "المنتجات",
           "choose_driver": "اختر سائق",
           "select Address": "اختيار الموقع",
           "coupon book": "دفتر الكوبونات",

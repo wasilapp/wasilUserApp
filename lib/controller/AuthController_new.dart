@@ -18,106 +18,114 @@ import '../views/old/api/api_util.dart';
 import '../model/Account.dart';
 import '../views/old/models/MyResponse.dart';
 import '../model/User.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 enum AuthType {
   verified, //
   notVerified,
-  notFound, }
+  notFound,
+}
 
 class AuthController extends GetxController {
-var errorText=''.obs;
-var errorList=[].obs;
+  var errorText = ''.obs;
+  var errorList = [].obs;
 
 //--------------------- Register  ---------------------------------------------//
- Future registerUser({
-    required String name, required String email,required String  mobile, required String password, required int accountType}) async {
-   ProgressHud.shared.startLoading(Get.context);
-  //Add FCM Token
-  PushNotificationsManager pushNotificationsManager = PushNotificationsManager();
-  await pushNotificationsManager.init();
-  String? fcmToken = await pushNotificationsManager.getToken();
+  Future registerUser(
+      {required String name,
+      required String email,
+      required String mobile,
+      required String password,
+      required int accountType}) async {
+    ProgressHud.shared.startLoading(Get.context);
+    //Add FCM Token
+    PushNotificationsManager pushNotificationsManager =
+        PushNotificationsManager();
+    await pushNotificationsManager.init();
+    String? fcmToken = await pushNotificationsManager.getToken();
 
-  //URL
-  var registerUrl = Uri.parse('https://news.wasiljo.com/public/api/v1/user/register');
+    //URL
+    var registerUrl =
+        Uri.parse('https://admin.wasiljo.com/public/api/v1/user/register');
 
-  //Body
-  Map data = {
-    'name': name,
-    'email': email,
-    "mobile" : mobile,
-    'password': password,
-    'account_type':accountType,
-    'fcm_token': fcmToken
-  };
+    //Body
+    Map data = {
+      'name': name,
+      'email': email,
+      "mobile": mobile,
+      'password': password,
+      'account_type': accountType,
+      'fcm_token': fcmToken
+    };
 
-  // //Encode
-  String body = json.encode(data);
+    // //Encode
+    String body = json.encode(data);
 
-  //Check Internet
-  bool isConnected = await InternetUtils.checkConnection();
-  if(!isConnected){
-    return MyResponse.makeInternetConnectionError();
-  }
-
-  //Response
-  try {
-    var response = await http.post(registerUrl,
-        headers: ApiUtil.getHeader(requestType: RequestType.Post),
-        body: body);
-    ProgressHud.shared.stopLoading();
-    log(response.body.toString());
-
-    if (response.statusCode == 200) {
-      log("i am is the success method");
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      Map<String, dynamic> data = json.decode(response.body);
-      Map<String, dynamic> user = data['data']['user'];
-      String token = data['data']['token'];
-  await sharedPreferences.setString('name', user['name']);
- var name= await sharedPreferences.getString('name');
-      await sharedPreferences.setString('email', user['email']);
-      await sharedPreferences.setString('token', token);
-      await sharedPreferences.setString('mobile', user['mobile']);
-      await sharedPreferences.setBool('mobile_verified', true);
-Get.snackbar('success register', 'welcome $name to application wasil',icon:Icon( Icons.waving_hand));
-  return ;
-    } else {
-      log("i am is the not 200 method");
-      Map<String, dynamic> data = json.decode(response.body!);
-      log('error${data["error"]}');
-       var errors = data['error'];
-      errorList.value = List<String>.from(errors['error']);
-
+    //Check Internet
+    bool isConnected = await InternetUtils.checkConnection();
+    if (!isConnected) {
+      return MyResponse.makeInternetConnectionError();
     }
 
+    //Response
+    try {
+      var response = await http.post(registerUrl,
+          headers: ApiUtil.getHeader(requestType: RequestType.Post),
+          body: body);
+      ProgressHud.shared.stopLoading();
+      log(response.body.toString());
 
-  }catch(e){
-    //If any server error...
-    log("i am in the catch method");
-    log(e.toString());
-    return MyResponse.makeServerProblemError();
+      if (response.statusCode == 200) {
+        log("i am is the success method");
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        Map<String, dynamic> data = json.decode(response.body);
+        Map<String, dynamic> user = data['data']['user'];
+        String token = data['data']['token'];
+        await sharedPreferences.setString('name', user['name']);
+        var name = await sharedPreferences.getString('name');
+        await sharedPreferences.setString('email', user['email']);
+        await sharedPreferences.setString('token', token);
+        await sharedPreferences.setString('mobile', user['mobile']);
+        await sharedPreferences.setBool('mobile_verified', true);
+        Get.snackbar('success register', 'welcome $name to application wasil',
+            icon: Icon(Icons.waving_hand));
+        return;
+      } else {
+        log("i am is the not 200 method");
+        Map<String, dynamic> data = json.decode(response.body!);
+        log('error${data["error"]}');
+        var errors = data['error'];
+        errorList.value = List<String>.from(errors['error']);
+      }
+    } catch (e) {
+      //If any server error...
+      log("i am in the catch method");
+      log(e.toString());
+      return MyResponse.makeServerProblemError();
+    }
   }
-}
+
   //--------------------- Log In ---------------------------------------------//
-   Future loginUser(String mobile, String password) async {
-    LocaleController controller=Get.put(LocaleController());
+  Future loginUser(String mobile, String password) async {
+    LocaleController controller = Get.put(LocaleController());
     //Get FCM
 
     PushNotificationsManager pushNotificationsManager =
         PushNotificationsManager.instance;
 
     pushNotificationsManager = PushNotificationsManager();
-      pushNotificationsManager.init();
+    pushNotificationsManager.init();
 
     //await pushNotificationsManager.init();
     String? fcmToken = await pushNotificationsManager.getToken();
 
     //URL
-    String loginUrl = 'https://news.wasiljo.com/public/api/v1/user/login?lang=${controller.language}';
+    String loginUrl =
+        'https://admin.wasiljo.com/public/api/v1/user/login?lang=${controller.language}';
 
     //Body Data
-    Map data = {'mobile': mobile , 'password': password, 'fcm_token': fcmToken};
+    Map data = {'mobile': mobile, 'password': password, 'fcm_token': fcmToken};
 
     log(data.toString());
 
@@ -132,18 +140,16 @@ Get.snackbar('success register', 'welcome $name to application wasil',icon:Icon(
 
     //Response
     try {
-      var  response = await http.post(Uri.parse(loginUrl),
+      var response = await http.post(Uri.parse(loginUrl),
           headers: ApiUtil.getHeader(requestType: RequestType.Post),
           body: body);
 
       log(response.body.toString());
 
-
       if (response.statusCode == 200) {
-
         log('200');
         SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+            await SharedPreferences.getInstance();
         Map<String, dynamic> data = json.decode(response.body);
 
         Map<String, dynamic> user = data['data']['user'];
@@ -151,46 +157,41 @@ Get.snackbar('success register', 'welcome $name to application wasil',icon:Icon(
         String token = data['data']['token'];
         await sharedPreferences.setString('token', token);
         // save data user in catch
-      await saveUser(user);
+        await saveUser(user);
 
         AuthType authType = await AuthController.userAuthType();
 
-
         if (authType == AuthType.verified) {
           log('authType == AuthType.VERIFIED');
-        Get.to(const HomeScreen());
-        } else if (authType == AuthType.notVerified) {//
-        log('authType == AuthType.LOGIN');
-           Get.to(const HomeScreen());
+          Get.to(const HomeScreen());
+        } else if (authType == AuthType.notVerified) {
+          //
+          log('authType == AuthType.LOGIN');
+          Get.to(const HomeScreen());
         }
 
-errorText.value='';
+        errorText.value = '';
         print('true');
       } else {
-        log( 'myResponse.success = false;');
+        log('myResponse.success = false;');
         Map<String, dynamic> data = json.decode(response.body);
-       String error = data['error'];
-       errorText.value=error;
+        String error = data['error'];
+        errorText.value = error;
         print('error : ${errorText.value}');
-
       }
-
-
-    } catch (e ) {
-
-
+    } catch (e) {
       log(e.toString());
       return MyResponse.makeServerProblemError();
     }
   }
 
   //--------------------- Check Mobile Availability ---------------------------------------------//
-   Future<MyResponse> mobileVerified(String? mobileNumber) async {
+  Future<MyResponse> mobileVerified(String? mobileNumber) async {
     //Get Token
     String? token = await getApiToken();
 
     //URL
-    String url = 'https://news.wasiljo.com/public/api/v1/user/mobile_verified';
+    String url = 'https://admin.wasiljo.com/public/api/v1/user/mobile_verified';
 
     //Body Data
     Map data = {'mobile': mobileNumber};
@@ -232,12 +233,13 @@ errorText.value='';
   }
 
   //--------------------- Mobile Verified ---------------------------------------------//
-   Future<MyResponse> verifyMobileNumber(String mobileNumber) async {
+  Future<MyResponse> verifyMobileNumber(String mobileNumber) async {
     //Get Token
     String? token = await getApiToken();
 
     //URL
-    String url = 'https://news.wasiljo.com/public/api/v1/user/verify_mobile_number';
+    String url =
+        'https://admin.wasiljo.com/public/api/v1/user/verify_mobile_number';
 
     //Body Data
     Map data = {'mobile': mobileNumber};
@@ -261,7 +263,6 @@ errorText.value='';
       MyResponse myResponse = MyResponse(response.statusCode);
       log(response.body!.toString());
       if (response.statusCode == 200) {
-
         myResponse.success = true;
       } else {
         Map<String, dynamic> data = json.decode(response.body!);
@@ -274,17 +275,12 @@ errorText.value='';
     }
   }
 
-
-
   //--------------------- Forgot Password ---------------------------------------------//
-  static Future<MyResponse> forgotPassword(String mobile,password) async {
+  static Future<MyResponse> forgotPassword(String mobile, password) async {
     String url = ApiUtil.MAIN_API_URL + ApiUtil.FORGOT_PASSWORD;
 
     //Body date
-    Map data = {
-      'mobile': mobile,
-      'password' : password
-    };
+    Map data = {'mobile': mobile, 'password': password};
 
     //Encode
     String body = json.encode(data);
@@ -299,10 +295,10 @@ errorText.value='';
       NetworkResponse response = await Network.post(url,
           headers: ApiUtil.getHeader(requestType: RequestType.Post),
           body: body);
-        log(response.body.toString());
+      log(response.body.toString());
       MyResponse myResponse = MyResponse(response.statusCode);
 
-      if (response.statusCode==200) {
+      if (response.statusCode == 200) {
         myResponse.success = true;
       } else {
         Map<String, dynamic> data = json.decode(response.body!);
@@ -311,27 +307,25 @@ errorText.value='';
       }
 
       return myResponse;
-    }catch(e){
+    } catch (e) {
       log(e.toString());
       return MyResponse.makeServerProblemError();
     }
-
   }
 
-
   //---------------------- Update user ------------------------------------------//
-   Future<MyResponse> updateUser( String name,String email,String phone) async {
+  Future<MyResponse> updateUser(String name, String email, String phone) async {
     //Get Token
     String? token = await getApiToken();
-    String registerUrl ='https://news.wasiljo.com/public/api/v1/user/update_profile?lang=ar';
+    String registerUrl =
+        'https://admin.wasiljo.com/public/api/v1/user/update_profile?lang=ar';
 
     Map data = {
-      "name":name,
-      "mobile":phone,
-      "email":email,
-
+      "name": name,
+      "mobile": phone,
+      "email": email,
     };
-print(data['name']);
+    print(data['name']);
     if (name.isNotEmpty) data['name'] = name;
     if (email.isNotEmpty) data['email'] = email;
     if (phone.isNotEmpty) data['phone'] = phone;
@@ -352,9 +346,12 @@ print(data['name']);
     }
 
     try {
-      NetworkResponse response = await Network.post(registerUrl,
-        headers: ApiUtil.getHeader(requestType: RequestType.PostWithAuth,token: token),
-        body: body,);
+      NetworkResponse response = await Network.post(
+        registerUrl,
+        headers: ApiUtil.getHeader(
+            requestType: RequestType.PostWithAuth, token: token),
+        body: body,
+      );
 
       MyResponse myResponse = MyResponse(response.statusCode);
       if (response.statusCode == 200) {
@@ -368,15 +365,13 @@ print(data['name']);
       }
 
       return myResponse;
-    }catch(e){
+    } catch (e) {
       return MyResponse.makeServerProblemError();
     }
   }
 
-
   //------------------------ Logout -----------------------------------------//
-   Future<bool> logoutUser() async {
-
+  Future<bool> logoutUser() async {
     //Remove FCM Token
     PushNotificationsManager pushNotificationsManager =
         PushNotificationsManager();
@@ -395,13 +390,16 @@ print(data['name']);
 
     return true;
   }
-  //------------------------ deleteAccount -----------------------------------------//
-      Future deleteAccount() async {
 
-         String? token = await getApiToken();
-print(token);
-    var response = await http.post(Uri.parse('https://news.wasiljo.com/public/api/v1/user/delete'),
-        headers: ApiUtil.getHeader(requestType: RequestType.PostWithAuth,token: token!),);
+  //------------------------ deleteAccount -----------------------------------------//
+  Future deleteAccount() async {
+    String? token = await getApiToken();
+    print(token);
+    var response = await http.post(
+      Uri.parse('https://admin.wasiljo.com/public/api/v1/user/delete'),
+      headers: ApiUtil.getHeader(
+          requestType: RequestType.PostWithAuth, token: token!),
+    );
 
     log("Deleting : ");
     log(response.body.toString());
@@ -416,17 +414,17 @@ print(token);
     await sharedPreferences.remove('mobile');
     await sharedPreferences.remove('mobile_verified');
     await sharedPreferences.remove('blocked');
-Get.to(const SignInScreen());
+    Get.to(const SignInScreen());
     return true;
   }
 
- // ------------------------ Save user in cache -----------------------------------------//
-  static saveUser(Map<String,dynamic> user) async {
+  // ------------------------ Save user in cache -----------------------------------------//
+  static saveUser(Map<String, dynamic> user) async {
     await saveUserFromUser(User.fromJson(user));
   }
 
   static saveUserFromUser(User user) async {
-   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setInt('id', user.id);
     await sharedPreferences.setString('name', user.name!);
     await sharedPreferences.setString('email', user.email!);
@@ -435,16 +433,21 @@ Get.to(const SignInScreen());
     await sharedPreferences.setString('mobile', user.mobile!);
     await sharedPreferences.setBool('blocked', user.blocked);
 
-   print( sharedPreferences.getInt('id'));
-       print( sharedPreferences.getString('name'));
-   print( sharedPreferences.getString('email'));
-       print( sharedPreferences.getBool('mobile_verified'));
-   print( sharedPreferences.getString('avatar_url',));
-     print( sharedPreferences.getString('mobile', ));
-   print( sharedPreferences.getBool('blocked', ));
+    print(sharedPreferences.getInt('id'));
+    print(sharedPreferences.getString('name'));
+    print(sharedPreferences.getString('email'));
+    print(sharedPreferences.getBool('mobile_verified'));
+    print(sharedPreferences.getString(
+      'avatar_url',
+    ));
+    print(sharedPreferences.getString(
+      'mobile',
+    ));
+    print(sharedPreferences.getBool(
+      'blocked',
+    ));
     print(sharedPreferences.getString('email'));
   }
-
 
   //------------------------ Get user from cache -----------------------------------------//
   static Future<Account> getAccount() async {
@@ -456,7 +459,7 @@ Get.to(const SignInScreen());
     String? token = sharedPreferences.getString('token');
     String? avatarUrl = sharedPreferences.getString('avatar_url');
 
-    return Account(id,name,mobile, email, token, avatarUrl);
+    return Account(id, name, mobile, email, token, avatarUrl);
   }
 
   //------------------------ Check user logged in or not -----------------------------------------//
@@ -469,43 +472,44 @@ Get.to(const SignInScreen());
       bool mobileVerified =
           sharedPreferences.getBool('mobile_verified') ?? false;
 
-      if (token == null) {//not signup
+      if (token == null) {
+        //not signup
         return AuthType.notFound;
-      } else if (!mobileVerified) {// not send otp
+      } else if (!mobileVerified) {
+        // not send otp
         return AuthType.notVerified;
       }
-      return AuthType.verified;// verification otp
+      return AuthType.verified; // verification otp
     } catch (e) {}
     return AuthType.notFound;
   }
 
   //------------------------ Get api token -----------------------------------------//
-   Future<String?> getApiToken() async {
+  Future<String?> getApiToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString("token");
   }
 
   //------------------------ Testing notice -------------------------------------//
 
-  static Widget notice(ThemeData themeData){
+  static Widget notice(ThemeData themeData) {
     return Container(
       margin: Spacing.fromLTRB(24, 36, 24, 24),
       child: RichText(
-        text: TextSpan(
-            children: [
-              TextSpan(
-                  text: "Note: ",
-                  style: AppTheme.getTextStyle(themeData.textTheme.subtitle2,color: themeData.colorScheme.primary,fontWeight: 600)
-              ),
-              TextSpan(
-                  text: "After testing please logout, because there is many user testing with same IDs so it can be possible that you can get unnecessary notifications",
-                  style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,color: themeData.colorScheme.onBackground,fontWeight: 500,letterSpacing: 0)
-              ),
-            ]
-        ),
+        text: TextSpan(children: [
+          TextSpan(
+              text: "Note: ",
+              style: AppTheme.getTextStyle(themeData.textTheme.subtitle2,
+                  color: themeData.colorScheme.primary, fontWeight: 600)),
+          TextSpan(
+              text:
+                  "After testing please logout, because there is many user testing with same IDs so it can be possible that you can get unnecessary notifications",
+              style: AppTheme.getTextStyle(themeData.textTheme.bodyText2,
+                  color: themeData.colorScheme.onBackground,
+                  fontWeight: 500,
+                  letterSpacing: 0)),
+        ]),
       ),
     );
   }
-
-
 }

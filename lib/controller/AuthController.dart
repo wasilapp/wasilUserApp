@@ -34,7 +34,7 @@
 //     String? fcmToken = await pushNotificationsManager.getToken();
 //
 //     //URL
-//     String loginUrl = 'https://news.wasiljo.com/public/api/v1/user/login?lang=${controller.language}';
+//     String loginUrl = 'https://admin.wasiljo.com/public/api/v1/user/login?lang=${controller.language}';
 //
 //     //Body Data
 //     Map data = {'mobile': mobile , 'password': password, 'fcm_token': fcmToken};
@@ -110,7 +110,7 @@
 //     String? token = await AuthController.getApiToken();
 //
 //     //URL
-//     String url = 'https://news.wasiljo.com/public/api/v1/user/mobile_verified';
+//     String url = 'https://admin.wasiljo.com/public/api/v1/user/mobile_verified';
 //
 //     //Body Data
 //     Map data = {'mobile': mobileNumber};
@@ -157,7 +157,7 @@
 //     String? token = await AuthController.getApiToken();
 //
 //     //URL
-//     String url = 'https://news.wasiljo.com/public/api/v1/user/verify_mobile_number';
+//     String url = 'https://admin.wasiljo.com/public/api/v1/user/verify_mobile_number';
 //
 //     //Body Data
 //     Map data = {'mobile': mobileNumber};
@@ -203,7 +203,7 @@
 //     String? fcmToken = await pushNotificationsManager.getToken();
 //
 //     //URL
-//     String registerUrl = 'https://news.wasiljo.com/public/api/v1/user/register';
+//     String registerUrl = 'https://admin.wasiljo.com/public/api/v1/user/register';
 //
 //     //Body
 //     Map data = {
@@ -322,7 +322,7 @@
 //   static Future<MyResponse> updateUser( String name,String email,String phone) async {
 //     //Get Token
 //     String? token = await AuthController.getApiToken();
-//     String registerUrl ='https://news.wasiljo.com/public/api/v1/user/update_profile?lang=ar';
+//     String registerUrl ='https://admin.wasiljo.com/public/api/v1/user/update_profile?lang=ar';
 //
 //     Map data = {
 //       "name":name,
@@ -399,7 +399,7 @@
 //
 //          String? token = await AuthController.getApiToken();
 // print(token);
-//     var response = await http.post(Uri.parse('https://news.wasiljo.com/public/api/v1/user/delete'),
+//     var response = await http.post(Uri.parse('https://admin.wasiljo.com/public/api/v1/user/delete'),
 //         headers: ApiUtil.getHeader(requestType: RequestType.PostWithAuth,token: token!),);
 //
 //     log("Deleting : ");

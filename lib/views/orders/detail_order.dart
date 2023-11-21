@@ -5,9 +5,11 @@ import '../../core/locale/locale.controller.dart';
 import 'orders_controller.dart';
 
 class DetailOrder extends StatelessWidget {
-  DetailOrder({super.key});
+  int id;
+  DetailOrder({super.key,required this.id});
   OrderController controller = Get.put(OrderController());
   LocaleController controllerLocale = Get.put(LocaleController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -127,7 +129,7 @@ class DetailOrder extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: Image.network(
-                    'https://news.wasiljo.com/${controller.myOrders!.carts![index].subCategory!.imageUrl}',
+                    'https://admin.wasiljo.com/${controller.myOrders!.carts![index].subCategory!.imageUrl}',
                     width: 20.w,
                     height: 20.h,
                   ),

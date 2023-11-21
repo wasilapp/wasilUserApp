@@ -19,7 +19,7 @@ class CategoryController extends GetxController {
   Future<List<CategoriesModel>> fetchCategories() async {
     try {
       final response = await http.get(
-          Uri.parse('https://news.wasiljo.com/public/api/v1/user/categories'));
+          Uri.parse('https://admin.wasiljo.com/public/api/v1/user/categories'));
       var jsonData = jsonDecode(response.body);
       List<dynamic> categories = jsonData['data']['categories'];
       List<CategoriesModel> listCategories = [];

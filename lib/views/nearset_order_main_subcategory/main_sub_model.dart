@@ -1,7 +1,6 @@
 class MainSubcategoryModel {
   int? id;
   int? counter;
-
   Title? title;
   Title? description;
   double? price;

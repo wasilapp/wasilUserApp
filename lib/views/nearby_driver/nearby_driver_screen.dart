@@ -16,24 +16,26 @@ class NearbyDriverScreen extends GetView<NearbyDriverController> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          GetBuilder<NearbyDriverController>(builder: (nearbyDriverController) {
-            return Obx(
-              () => Visibility(
-                visible: nearbyDriverController.showMap.value,
-                child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: MediaQuery.sizeOf(context).width * 0.8,
-                  child: GoogleMap(
-                    initialCameraPosition:
-                        nearbyDriverController.initialCameraPosition,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    markers: nearbyDriverController.markers,
+          GetBuilder<NearbyDriverController>(
+              init: NearbyDriverController(),
+              builder: (nearbyDriverController) {
+                return Obx(
+                  () => Visibility(
+                    visible: nearbyDriverController.showMap.value,
+                    child: SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).width * 0.8,
+                      child: GoogleMap(
+                        initialCameraPosition:
+                            nearbyDriverController.initialCameraPosition,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        markers: nearbyDriverController.markers,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
+                );
+              }),
           const SizedBox(
             height: 10,
           ),

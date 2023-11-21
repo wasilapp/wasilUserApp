@@ -1,7 +1,6 @@
-
 import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:userwasil/views/home/category_view/home_screen.dart';
 import '../../../config/custom_package.dart';
@@ -17,16 +16,19 @@ class SignInController extends GetxController {
   LocaleController controller = Get.put(LocaleController());
 //--------------------- Register  ---------------------------------------------//
   Future SignInUser({
- required String mobile, required String password,}) async {
+    required String mobile,
+    required String password,
+  }) async {
     ProgressHud.shared.startLoading(Get.context);
     //Add FCM Token
-    PushNotificationsManager pushNotificationsManager = PushNotificationsManager();
+    PushNotificationsManager pushNotificationsManager =
+        PushNotificationsManager();
     await pushNotificationsManager.init();
     String? fcmToken = await pushNotificationsManager.getToken();
 
     //URL
     var loginUrl = Uri.parse(
-        'https://news.wasiljo.com/public/api/v1/user/login?lang=${controller.language}');
+        'https://admin.wasiljo.com/public/api/v1/user/login?lang=${controller.language}');
 
     //Body
     Map data = {
@@ -52,10 +54,10 @@ class SignInController extends GetxController {
       log(response.body.toString());
 
       if (response.statusCode == 200) {
-        errorText.value='';
+        errorText.value = '';
         log("i am is the success method");
-        SharedPreferences sharedPreferences = await SharedPreferences
-            .getInstance();
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
         Map<String, dynamic> data = json.decode(response.body);
         Map<String, dynamic> user = data['data']['user'];
         String token = data['data']['token'];
@@ -63,8 +65,8 @@ class SignInController extends GetxController {
         var name = await sharedPreferences.getString('name');
         await sharedPreferences.setString('email', user['email']);
         await sharedPreferences.setString('token', token);
-      // user['referrer_link']??   await sharedPreferences.setString('referrer_link', user['referrer_link']);
-       await sharedPreferences.setString('referrer', user['referrer']);
+        // user['referrer_link']??   await sharedPreferences.setString('referrer_link', user['referrer_link']);
+        await sharedPreferences.setString('referrer', user['referrer']);
         await sharedPreferences.setString('mobile', user['mobile']);
         await sharedPreferences.setBool('mobile_verified', true);
         Get.off(const HomeScreen());
@@ -79,7 +81,7 @@ class SignInController extends GetxController {
         var errors = data['error'];
         errorText.value = errors;
         print(errorText.value);
-        return ;
+        return;
       }
     } catch (e) {
       //If any server error...

@@ -2,42 +2,39 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:userwasil/controller/general_status_model.dart';
 import 'package:userwasil/views/orders/my_order_model.dart';
 
-
 import '../../core/constant/colors.dart';
 import 'order_model.dart';
-class OrderController extends GetxController{
-  var orders=[].obs;
-  MyOrder ? myOrders;
+
+class OrderController extends GetxController {
+  var orders = [].obs;
+  MyOrder? myOrders;
   late var statusModel = GeneralStatusModel().obs;
   @override
   void onInit() {
     log('k');
     getOrders();
   }
-  void getOrders() async {
 
+  void getOrders() async {
     statusModel.value.updateStatus(GeneralStatus.waiting);
-    SharedPreferences prefs= await SharedPreferences.getInstance();
-    var token=prefs.getString('token');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
     var headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token '
     };
-    var url = Uri.parse('https://news.wasiljo.com/public/api/v1/user/orders');
-    var response = await http.get(
-      url,headers: headers
-    );
+    var url = Uri.parse('https://admin.wasiljo.com/public/api/v1/user/orders');
+    var response = await http.get(url, headers: headers);
 // log(response.body);
-log(response.statusCode.toString());
+    log(response.statusCode.toString());
     if (response.statusCode == 200) {
-
-
+      orders.clear();
       log('response.statusCode  id${response.statusCode}');
       log('response.body  id${json.decode(response.body)}');
 
@@ -53,9 +50,8 @@ log(response.statusCode.toString());
       log(result.length.toString());
 
       for (int index = 0; index < result.length; index++) {
-
         OrderModel product = OrderModel.fromJson(result[index]);
-log(product.id.toString());
+        log(product.id.toString());
         orders.add(product);
         log(orders.length.toString());
         log('lllllllllllllll');
@@ -65,16 +61,16 @@ log(product.id.toString());
 
       log(response.body);
       return;
-    }
-    else{
+    } else {
       log(response.body);
     }
     statusModel.value.updateStatus(GeneralStatus.error);
     statusModel.value.updateError("Something went wrong");
   }
+
   void getDetailOrders(orderId) async {
     // statusModel.value.updateStatus(GeneralStatus.waiting);
-   SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
     var headers = {
       'Accept': 'application/json',
@@ -82,19 +78,15 @@ log(product.id.toString());
       'Authorization': 'Bearer $token '
     };
     var url = Uri.parse(
-        'https://news.wasiljo.com/public/api/v1/user/order/$orderId');
-    var response = await http.get(
-        url, headers: headers
-    );
- log(response.body);
+        'https://admin.wasiljo.com/public/api/v1/user/order/$orderId');
+    var response = await http.get(url, headers: headers);
+    log(response.body);
     log(response.statusCode.toString());
     if (response.statusCode == 200) {
       log('response.statusCode  id${response.statusCode}');
       log('response.body  id${json.decode(response.body)}');
 
-      if (json
-          .decode(response.body)
-          .isEmpty) {
+      if (json.decode(response.body).isEmpty) {
         log('response.isEmpty  id${json.decode(response.body)}');
 
         statusModel.value.updateStatus(GeneralStatus.error);
@@ -106,26 +98,21 @@ log(product.id.toString());
       log(result.length.toString());
       MyOrder product = MyOrder.fromJson(result);
 
-myOrders=product;
+      myOrders = product;
 
       log(product.id.toString());
 
-
       //statusModel.value.updateStatus(GeneralStatus.success);
 
-
-
-    log(response.body);
-    return;
-  }
-    else{
-
-
+      log(response.body);
+      return;
+    } else {
       log(response.body);
     }
     // statusModel.value.updateStatus(GeneralStatus.error);
     // statusModel.value.updateError("Something went wrong");
   }
+
 //   Future<List<OrdersModel>> fetchAllOrder() async {
 //     SharedPreferences prefs= await SharedPreferences.getInstance();
 //     var token=prefs.getString('token');
@@ -137,7 +124,7 @@ myOrders=product;
 //
 //     try {
 // print("start");
-//       final response = await http.get(Uri.parse('https://news.wasiljo.com/public/api/v1/user/orders'),
+//       final response = await http.get(Uri.parse('https://admin.wasiljo.com/public/api/v1/user/orders'),
 //       headers: headers);
 // print("*******************************");
 // print(response.body);
@@ -225,35 +212,37 @@ myOrders=product;
 //       throw Exception('Failed to load shops');
 //     }
 //   }
-cancelOrder(int idOrder) async {
+  cancelOrder(int idOrder) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token '
+    };
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://admin.wasiljo.com/public/api/v1/user/order/$idOrder/cancel'));
+    request.body = '''''';
+    request.headers.addAll(headers);
 
-  SharedPreferences prefs= await SharedPreferences.getInstance();
-  var token=prefs.getString('token');
-  var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer $token '
-  };
-  var request = http.Request('POST', Uri.parse('https://news.wasiljo.com/public/api/v1/user/order/$idOrder/cancel'));
-  request.body = '''''';
-  request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
 
-  http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200) {
-    getOrders();
-    Get.snackbar('cancel order success', '',
-        backgroundColor: AppColors.primaryColor, snackPosition: SnackPosition.BOTTOM,
-       );
-    print(await response.stream.bytesToString());
-
-
+    if (response.statusCode == 200) {
+      getOrders();
+      Get.snackbar(
+        'cancel order success',
+        '',
+        backgroundColor: AppColors.primaryColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      print(await response.stream.bytesToString());
+    } else {
+      print(response.reasonPhrase);
+    }
   }
-  else {
-  print(response.reasonPhrase);
-  }
 
-}
   get isWaiting => statusModel.value.status.value == GeneralStatus.waiting;
 
   get isError => statusModel.value.status.value == GeneralStatus.error;

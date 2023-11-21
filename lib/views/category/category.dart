@@ -11,6 +11,18 @@ import 'package:userwasil/views/nearby_driver/nearby_driver_controller.dart';
 import 'package:userwasil/views/subcategory_shop/subcategories_controller.dart';
 import 'category_controller.dart';
 
+NetworkImage getImageUrl(String url) {
+  NetworkImage image;
+  try {
+    image = NetworkImage(
+      url.isNotEmpty ? url : '',
+    );
+  } catch (e) {
+    image = const NetworkImage("http://via.placeholder.com/350x150");
+  }
+  return image;
+}
+
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({super.key});
 
@@ -19,6 +31,18 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class _CategoryWidgetState extends State<CategoryWidget> {
+  NetworkImage getImageUrl(String url) {
+    NetworkImage image;
+    try {
+      image = NetworkImage(
+        url.isNotEmpty ? url : '',
+      );
+    } catch (e) {
+      image = const NetworkImage("https://picsum.photos/250?image=9");
+    }
+    return image;
+  }
+
   @override
   Widget build(BuildContext context) {
     CategoryController controllerCategory = Get.put(CategoryController());
@@ -113,11 +137,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
               const SizedBox(
                 height: 10,
               ),
-              Image.network(
-                'https://news.wasiljo.com/${category.imageUrl}',
+              Container(
                 width: 100,
                 height: 100,
-                fit: BoxFit.cover,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: getImageUrl(
+                            'https://admin.wasiljo.com/${category.imageUrl}'))),
               ),
               const SizedBox(
                 height: 10,

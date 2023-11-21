@@ -13,7 +13,7 @@ import 'AuthController_new.dart';
 
 class AddressController extends GetxController {
   AuthController authControllerUser = Get.put(AuthController());
-  
+
   var listAddress = RxList<UserAddress>();
   var selectedAddress = ''.obs;
   var street = ''.obs;
@@ -32,7 +32,6 @@ class AddressController extends GetxController {
     _listDefaultAddress = value;
   }
 
-  
   @override
   void onInit() async {
     getMyAddresses();
@@ -53,7 +52,7 @@ class AddressController extends GetxController {
 
     String? token = await authControllerUser.getApiToken();
     // url add new address
-    String url = 'https://news.wasiljo.com/public/api/v1/user/addresses';
+    String url = 'https://admin.wasiljo.com/public/api/v1/user/addresses';
     Map<String, String> headers =
         ApiUtil.getHeader(requestType: RequestType.PostWithAuth, token: token);
     final Map<String, dynamic> data = {
@@ -97,7 +96,7 @@ class AddressController extends GetxController {
   Future<RxList<UserAddress>> getMyAddresses() async {
     //Getting User Api Token
     String? token = await authControllerUser.getApiToken();
-    String url = 'https://news.wasiljo.com/public/api/v1/user/addresses';
+    String url = 'https://admin.wasiljo.com/public/api/v1/user/addresses';
     Map<String, String> headers =
         ApiUtil.getHeader(requestType: RequestType.GetWithAuth, token: token);
 
@@ -134,7 +133,7 @@ class AddressController extends GetxController {
     //Getting User Api Token
     String? token = await authControllerUser.getApiToken();
     String url =
-        'https://news.wasiljo.com/public/api/v1/user/addresses$addressId';
+        'https://admin.wasiljo.com/public/api/v1/user/addresses$addressId';
 
     //Body Data
     Map data = {};
@@ -206,7 +205,7 @@ class AddressController extends GetxController {
   Future<void> deleteAddress(int addressId) async {
     String? token = await authControllerUser.getApiToken();
     String url =
-        'https://news.wasiljo.com/public/api/v1/user/addresses/$addressId';
+        'https://admin.wasiljo.com/public/api/v1/user/addresses/$addressId';
     Map<String, String> headers =
         ApiUtil.getHeader(requestType: RequestType.PostWithAuth, token: token);
     var response = await http.delete(Uri.parse(url), headers: headers);
