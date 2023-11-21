@@ -185,13 +185,18 @@ class ChooseDriver extends GetView<DriverController> {
                   ),
                   Row(
                     children: [
-                      const Icon(Icons.star,
-                          color: AppColors.primaryColor, size: 15),
-                      Text(driver.rating.toString(),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          )),
+                      const Icon(
+                        Icons.star,
+                        color: AppColors.primaryColor,
+                        size: 15,
+                      ),
+                      Text(
+                        driver.rating.toString(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
@@ -204,8 +209,10 @@ class ChooseDriver extends GetView<DriverController> {
                   )
                 ]),
             onTap: () {
-              int index = Get.find<NearbyDriverController>().driverId.length;
-              if (index > 0) {
+              Get.lazyPut(() => NearbyDriverController());
+              bool index =
+                  Get.find<NearbyDriverController>().driverId.isNotEmpty;
+              if (index) {
                 Get.find<NearbyDriverController>().driverId.clear();
               }
               Get.find<NearbyDriverController>()

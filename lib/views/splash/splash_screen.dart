@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String? isChecked = sharedPreferences.getString("isChecked");
     String? token = sharedPreferences.getString('token');
     // isChecked=null;
-    Get.log(token!);
+  //  Get.log(token!);
     if (isChecked == null) {
       sharedPreferences.setString("isChecked", "1");
       Get.offAll(OnboardingScreen());

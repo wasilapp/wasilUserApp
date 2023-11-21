@@ -91,28 +91,7 @@ class WalletShopController extends GetxController {
   }
 
   plus() {}
-  double getTotalPriceInCart2() {
-    for (var item in cartList) {
-      if (cartList.isEmpty) {
-        totalPrice.value = 0.0;
-      }
-      totalPrice.value = 0.0;
-      if (item.counter! > 0) {
-        totalPrice.value += (item.price * item.counter);
-      }
-    }
-    update();
-    return totalPrice.value;
-  }
-  double calculateTotal() {
-    totalPrice.value = 0.0;
-    for (int i = 0; i < cartList.length; i++) {
-      totalPrice.value += cartList[i].counter! * (cartList[i].price ?? 0);
-    }
-    update();
 
-    return totalPrice.value;
-  }
   getTotalPriceInCart() {
     for (var item in cartList) {
       if (item.counter! > 0) {
@@ -139,32 +118,46 @@ class WalletShopController extends GetxController {
   }
 
   getCart(model) {
-    if (cartList
-        .where((item) => item.id == model.id)
-        .isEmpty) {
+    if (cartList.where((item) => item.id == model.id).isEmpty) {
       cartList.add(model);
     }
 
 
-    if (cartList.length >= 1) {
-      cartList.clear();
-      if (cartList
-          .where((item) => item.id == model.id)
-          .isEmpty) {
-        cartList.add(model);
-      }
-    }
-    else {
-      if (cartList.isNotEmpty) {
-        cartList.clear();
-        if (cartList
-            .where((item) => item.id == model.id)
-            .isEmpty) {
-          cartList.add(model);
-        }
-      } else {
-        cartList.remove(model);
-      }
-    }
-  }}
 
+  if(cartList.length>=1){
+    cartList.clear();
+    if (cartList.where((item) => item.id == model.id).isEmpty) {
+      cartList.add(model);
+
+
+    }}
+    else {
+
+
+   
+      cartList.remove(model);
+    }
+  }
+  double getTotalPriceInCart2() {
+    for (var item in cartList) {
+      if (cartList.isEmpty) {
+        totalPrice.value = 0.0;
+      }
+      totalPrice.value = 0.0;
+      if (item.counter! > 0) {
+        totalPrice.value += (item.price * item.counter);
+      }
+    }
+    update();
+    return totalPrice.value;
+  }
+  double calculateTotal() {
+    totalPrice.value = 0.0;
+    for (int i = 0; i < cartList.length; i++) {
+      totalPrice.value += cartList[i].counter! * (cartList[i].price ?? 0);
+    }
+    update();
+
+    return totalPrice.value;
+  }
+}

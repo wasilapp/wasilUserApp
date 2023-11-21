@@ -105,7 +105,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         }
         return;
       },
-      child: SafeArea(child: Scaffold(
+      child: Scaffold(
         //  appBar: CommonViews().getAppBar(title: 'CheckOut'.tr),
         body: Obx(() {
           // if( controller.cartList.isEmpty){
@@ -118,6 +118,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const SizedBox(
+                    height: 60,
+                  ),
                   Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -433,18 +436,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
 
-                        print( controller.cartList.length.toString());
+
                         return ProductWidget(
-                          model: controller.cartList[index],
+                          model: subCategoriesModel[index],
                         );
                       },
-                      itemCount: controller.cartList.length,
+                      itemCount: subCategoriesModel.length,
 
-                      //   return ProductWidget(
-                      //     model: subCategoriesModel[index],
-                      //   );
-                      // },
-                      // itemCount: subCategoriesModel.length,
                       shrinkWrap: true,
                     ),
                   ),
@@ -597,10 +595,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             DateTime dateTime = DateTime.now();
                             String currentTime =
                                 '${dateTime.day}-${dateTime.month}-${dateTime.year}';
-                            Map<String, dynamic> driver = {
+                            Map<String, dynamic> data = {
                               "category_id": 2,
                               "payment_type": 2,
-                              "order_type": "urgent",
+                              "wallet_id": 1,
+                              "order_type": "scheduled",
                               "order_date": currentTime,
                               "order_time_from": "10:30am",
                               "order_time_to": "11:30am",
@@ -608,27 +607,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               "order": 1,
                               "delivery_fee": deliveryFee,
                               "total": controller.calculateTotal(),
-                              "coupon_discount": null,
-                              "coupon_id": null,
                               "address_id": 1,
                               "type": 1,
-                              "deliveryIds": Get.find<NearbyDriverController>()
-                                  .driverId
-                                  .join(','),
-                              "count": controller.cartList.length,
+                              "shop_id": 3,
+                              "delivery_boy_id": int.parse(
+                                  Get.find<NearbyDriverController>()
+                                      .driverId
+                                      .first),
+                              "count": subCategoriesModel.length,
                               "night_order": true,
                               "commesion": 0.1,
                               "carts": controller.cartList
                                   .map((e) => e.tooJson())
                                   .toList()
                             };
+                            Get.log(data.toString());
                             http.Response response = await http.post(
                               Uri.parse(
-                                  'https://admin.wasiljo.com/public/api/v1/user/orders/driver'),
-                              body: json.encode(driver),
+                                  'https://admin.wasiljo.com/public/api/v1/user/orders'),
+                              body: json.encode(data),
                               headers: {
                                 'Authorization': 'Bearer $token',
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
                               },
                             );
                             Get.log('1234 ${response.statusCode.toString()}');
@@ -637,6 +638,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             if (response.statusCode == 200) {
                               Get.to(() => const SuccesPage());
                               orderType = '0';
+                            }
+                            if (response.statusCode != 200) {
+                              Get.snackbar(
+                                  'error ', jsonDecode(response.body)['error'],
+                                  backgroundColor: Colors.red,
+                                  snackPosition: SnackPosition.TOP,
+                                  colorText: Colors.white,
+                                  icon: const Icon(
+                                    Icons.error_outline,
+                                    color: Colors.white,
+                                  ));
                             }
                             return;
                           }
@@ -664,7 +676,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               "deliveryIds": Get.find<NearbyDriverController>()
                                   .driverId
                                   .join(','),
-                              "count": controller.cartList.length,
+                              "count": subCategoriesModel.length,
                               "night_order": true,
                               "commesion": 0.1,
                               "carts": controller.cartList
@@ -686,6 +698,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             if (response.statusCode == 200) {
                               Get.to(() => const SuccesPage());
                               orderType = '0';
+                            }
+                            if (response.statusCode != 200) {
+                              Get.snackbar(
+                                  'error ', jsonDecode(response.body)['error'],
+                                  backgroundColor: Colors.red,
+                                  snackPosition: SnackPosition.TOP,
+                                  colorText: Colors.white,
+                                  icon: const Icon(
+                                    Icons.error_outline,
+                                    color: Colors.white,
+                                  ));
                             }
                             return;
                           }
@@ -744,14 +767,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 40,
                   )
                 ],
               ),
             ),
           );
         }),
-      )),
+      ),
     );
   }
 }
